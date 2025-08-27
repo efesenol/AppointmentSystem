@@ -1,0 +1,117 @@
+# ---------- Derleme çıktıları ----------
+bin/
+obj/
+Migrations/
+[Bb]uild/
+artifacts/
+publish/
+.publish/
+Migrations/
+
+# ---------- İşletim sistemi artıkları ----------
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
+Desktop.ini
+
+# ---------- IDE / Editör ----------
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+
+# Rider / ReSharper
+.idea/
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# VS Code (proje ayarlarını isteğe bağlı takip et)
+.vscode/*
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/settings.json
+!.vscode/tasks.json
+
+# ---------- NuGet ----------
+packages/
+*.nupkg
+*.snupkg
+*.nuspec
+project.lock.json
+project.fragment.lock.json
+
+# ---------- .NET çıktı/ara dosyaları ----------
+*.dll
+*.exe
+*.pdb
+*.mdb
+*.cache
+*.deps.json
+*.runtimeconfig.json
+*.runtimeconfig.dev.json
+*.lock.json
+*.dbmdl
+*.bak
+
+# ---------- Test / Coverage ----------
+TestResult*/
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+*.opencover.xml
+coverage/
+.nCrunch*/
+nCrunchTemp_*
+
+# ---------- Veritabanı / EF klasik ----------
+App_Data/
+*.mdf
+*.ldf
+*.ndf
+# (EF Core Migrations klasörünü commit et, ignore etme)
+
+# ---------- Uygulama konfigleri (lokal/secrets) ----------
+appsettings.*.local.json
+appsettings.Local.json
+appsettings.Development.local.json
+local.settings.json   # Azure Functions
+secrets.json
+
+# ---------- Yayınlama / Azure ----------
+*.pubxml.user
+csx/
+PublishScripts/
+
+# ---------- T4 / Üretilen kod ----------
+*.Transform.cs
+*.tt
+*.ttinclude
+*.generated.cs
+
+# ---------- Log / geçici ----------
+*.log
+*.tlog
+*.tmp
+*.temp
+~$*
+$tf/
+
+# ---------- İsteğe bağlı: Frontend içinde SPA varsa ----------
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+dist/
+build/
+
+# ---------- Araçlar ----------
+.sonar/
+.scannerwork/
+BenchmarkDotNet.Artifacts/

@@ -1,0 +1,92 @@
+@{
+    Layout = "_Layout";
+}
+
+<style>
+
+    .textcolor {
+        border-color: #656da4 !important;
+        border-width: 2.3px;
+        border-radius: 0.5rem;
+        color: #656da4;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+        .textcolor:hover {
+            background-color: #656da4;
+            color: white;
+        }
+</style>
+
+<div class="container pt-2 pb-4">
+    <div class="row pb-4">
+
+        <section style="background:#656da4" class="call-to-action call-to-action-strong-grey content-align-center ">
+            <div class="container">
+                <div class="row">
+                    <center>
+                        <h2 style="margin:0px!important;letter-spacing:4px;color: white !important" class="font-weight-normal"><strong>Login</strong></h2>
+                    </center>
+                </div>
+            </div>
+        </section>
+
+        <p></p>
+        <p></p>
+        <p></p>
+
+        <center>
+
+            <div class="col-md-6 col-lg-5 mb-5 mb-lg-0">
+
+                <div class="row">
+                    <div class="form-group col">
+                        <label for="loginEmail" class="form-label text-color-dark text-3"><span style="color: #656da4 !important"><b>E-mail </b></span><span class="text-color-danger">*</span></label>
+                        <input name="email" type="text" value="" class="form-control textcolor" required="" id="loginEmail">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col">
+                        <label for="loginPassword" class="form-label text-color-dark text-3"><span style="color: #656da4 !important"><b>Şifre </b></span><span class="text-color-danger">*</span></label>
+                        <input name="password" type="password" value="" class="form-control textcolor" required="" id="loginPassword">
+                    </div>
+                </div>
+
+                <p></p>
+                <p></p>
+
+                <div class="row justify-content-between">
+                    <div class="form-group col-md-auto">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="rememberMe" checked>
+                            <label class="form-label custom-control-label cur-pointer text-2" for="rememberMe"><span style="color: #656da4 !important"><b>Beni hatırla</b></span></label>
+                        </div>
+                    </div>
+                    @* <div class="form-group col-md-auto">
+                        <button onclick="btn_forgotPassword()" class="textcolor">Şifremi unuttum</button>
+                    </div> *@
+                </div>
+
+                <p></p>
+                <p></p>
+
+                <div class="row">
+                    <div class="form-group col">
+                        <input onclick="btn_Login()" class="textcolor" style="width:100%;height:50px;" type="submit" value="Login">
+                    </div>
+                </div>
+
+            </div>
+        </center>
+
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/js/myScript/login.js?=v1"></script>
+}
+
+

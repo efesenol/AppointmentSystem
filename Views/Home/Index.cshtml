@@ -1,0 +1,75 @@
+﻿@model List<UserAppointmentViewModel>
+
+
+<div class="container mt-3">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>İşletme</th>
+                <th>Randevu Alan Kişi</th>
+                <th>Randevu Tarihi</th>
+                <th>Randevu Saati</th>
+                <th>Durum</th>
+                <th>Düzenle</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.BusinessName</td>
+                    <td>@item.UserName</td>
+                    <td>@item.AppointmentDate.ToString("dd.MM.yyyy")</td>
+                    <td>@item.AppointmentDate.ToString("HH:mm")</td>
+
+                    <!-- Durum hücresi -->
+                    <td class="
+                        @(item.StatusText == "Bekliyor" ? "bg-warning" :
+                                            item.StatusText == "Tamamlandı" ? "bg-success" :
+                                            item.StatusText == "İptal" ? "bg-danger" : "")">
+                        @item.StatusText
+                    </td>
+
+                    <td>
+                        <a href="/Edit/@item.AppointmentId" class="btn btn-sm btn-primary">Düzenle</a>
+                        <button type="button" class="btn btn-sm btn-danger btn-delete"
+                            data-id="@item.AppointmentId">Sil</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const deleteButtons = document.querySelectorAll(".btn-delete");
+
+        deleteButtons.forEach(btn => {
+            btn.addEventListener("click", function () {
+                const jobId = this.getAttribute("data-id");
+
+                Swal.fire({
+                    title: "Emin misiniz?",
+                    text: "Bu kaydı silmek üzeresiniz!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Evet, sil!",
+                    cancelButtonText: "İptal"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Silme isteğini gönder
+                        fetch(`/Delete/${jobId}`, {
+                            method: "POST"
+                        }).then(() => {
+                            Swal.fire("Silindi!", "Kayıt başarıyla silindi.", "success")
+                                .then(() => {
+                                    location.reload();
+                                });
+                        });
+                    }
+                });
+            });
+        });
+    });
+</script>
