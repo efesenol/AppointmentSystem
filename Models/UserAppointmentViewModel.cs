@@ -11,6 +11,8 @@ namespace AppointmentSystem.Models
 
         public int BusinessId { get; set; }
         public string? BusinessName { get; set; }
+        public string? BusinessDescrption { get; set; }
+        public string? BusinessAdress { get; set; }
 
         public DateTime AppointmentDate { get; set; }
 

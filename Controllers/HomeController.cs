@@ -34,6 +34,8 @@ public class HomeController : Controller
             UserName = vm.Users.FullName,
             BusinessId = vm.Business!.Id,
             BusinessName = vm.Business.Name,
+            BusinessDescrption = vm.Business.Descrption,
+            BusinessAdress = vm.Business.Address,
             AppointmentDate = vm.AppointmentDate,
             AppointmentStatus = vm.Status
         })

@@ -1,45 +1,79 @@
 ﻿@model List<UserAppointmentViewModel>
 
+<style>
+    .fs-7 {
+    font-size: 0.8rem; /* daha küçük */
+}
+</style>
 
-<div class="container mt-3">
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>İşletme</th>
-                <th>Randevu Alan Kişi</th>
-                <th>Randevu Tarihi</th>
-                <th>Randevu Saati</th>
-                <th>Durum</th>
-                <th>Düzenle</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>@item.BusinessName</td>
-                    <td>@item.UserName</td>
-                    <td>@item.AppointmentDate.ToString("dd.MM.yyyy")</td>
-                    <td>@item.AppointmentDate.ToString("HH:mm")</td>
 
-                    <!-- Durum hücresi -->
-                    <td class="
-                        @(item.StatusText == "Bekliyor" ? "bg-warning" :
-                                            item.StatusText == "Tamamlandı" ? "bg-success" :
-                                            item.StatusText == "İptal" ? "bg-danger" : "")">
-                        @item.StatusText
-                    </td>
 
-                    <td>
-                        <a href="/Edit/@item.AppointmentId" class="btn btn-sm btn-primary">Düzenle</a>
-                        <button type="button" class="btn btn-sm btn-danger btn-delete"
-                            data-id="@item.AppointmentId">Sil</button>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+<div class="container mt-4">
+    <h3 class="mb-4">📅 Randevularım</h3>
+
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-4 mb-4">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body">
+
+                        <!-- Üst satır: Tarih - Saat -->
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="text-center bg-info-subtle p-2 rounded">
+                                <div class="fw-bold fs-5">@item.AppointmentDate.ToString("dd")</div>
+                                <div class="text-uppercase">@item.AppointmentDate.ToString("MMMM")</div>
+                                <div>@item.AppointmentDate.ToString("yyyy")</div>
+                            </div>
+                            <div class="text-muted">
+                                <i class="bi bi-clock"></i>
+                                @item.AppointmentDate.ToString("HH:mm")
+                            </div>
+                        </div>
+
+                        <h5 class="fw-bold text-primary mb-2">
+                            @item.BusinessName
+                        </h5>
+
+                        <p class="mb-1 text-dark bold">
+                            <i class="bi bi-capsule"></i>
+                            @item.BusinessAdress
+                        </p>
+
+                        <p class="mb-2 text-muted">
+                            <i class="bi bi-geo-alt"></i>
+                            @item.BusinessDescrption
+                        </p>
+
+                        <p class="mb-3">
+                            <span class="badge px-3 py-2 fs-7 rounded-pill 
+                                            @(item.StatusText == "İptal" ? "bg-danger" :
+                                            item.StatusText == "Bekliyor" ? "bg-warning text-dark" :
+                                            "bg-success")">
+                                @item.StatusText
+                            </span>
+                        </p>
+                    @if(item.AppointmentDate > DateTime.Now){
+                        <div class="d-grid">
+                            <a href="/Edit/@item.AppointmentId" class="btn btn-outline-primary">
+                                📌 Randevuya Git
+                            </a>
+                        </div>
+                        } else{
+                             <div class="d-grid">
+                            <span  class="btn btn-danger" disabled style="pointer-events: none;">
+                                Geçmiş Randevu
+                            </span>
+                        </div>
+                        }                  
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>
+
+
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {

@@ -1,47 +1,76 @@
 @model AppointmentSystem.Models.EditAppointmentViewModel
 @using Microsoft.AspNetCore.Mvc.Rendering
 
-<div class="container mt-4">
-    <h2>Randevu Düzenle</h2>
-    <form asp-action="Edit" method="post">
-        <input type="hidden" asp-for="AppointmentId" />
-
-        
-        <div class="mb-3">
-            <label asp-for="UserName" class="form-label">Randevu Alan Kişi</label>
-            <input asp-for="UserName" class="form-control" readonly />
+<div class="container mt-5">
+    <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">✏️ Randevu Düzenle</h4>
         </div>
+        <div class="card-body p-4">
+            <form asp-action="Edit" method="post">
+                <input type="hidden" asp-for="AppointmentId" />
 
-       
-        <div class="mb-3">
-            <label asp-for="AppointmentDate" class="form-label">Randevu Tarihi</label>
-            <input asp-for="AppointmentDate" class="form-control" type="datetime-local" /> 
-            <span asp-validation-for="AppointmentDate" class="text-danger"></span>
+                <!-- Kullanıcı -->
+                <div class="mb-3">
+                    <label asp-for="UserName" class="form-label fw-bold">
+                        <i class="bi bi-person-circle"></i> Randevu Alan Kişi
+                    </label>
+                    <input asp-for="UserName" class="form-control" readonly />
+                </div>
+
+                <!-- Tarih -->
+                <div class="mb-3">
+                    <label asp-for="AppointmentDate" class="form-label fw-bold">
+                        <i class="bi bi-calendar-event"></i> Randevu Tarihi
+                    </label>
+                    <input asp-for="AppointmentDate" class="form-control" type="datetime-local" />
+                    <span asp-validation-for="AppointmentDate" class="text-danger"></span>
+                </div>
+
+                <!-- İşletme -->
+                <div class="mb-3">
+                    <label asp-for="BusinessId" class="form-label fw-bold">
+                        <i class="bi bi-building"></i> İşletme
+                    </label>
+                    <select asp-for="BusinessId" asp-items="Model.Businesses" class="form-select"></select>
+                    <span asp-validation-for="BusinessId" class="text-danger"></span>
+                </div>
+
+                <!-- Durum -->
+                <div class="mb-3">
+                    <label asp-for="Status" class="form-label fw-bold">
+                        <i class="bi bi-flag"></i> Durum
+                    </label>
+                    <select asp-for="Status" class="form-select">
+                        @foreach (var status in Enum.GetValues(typeof(AppointmentSystem.Entities.AppointmentStatus)))
+                        {
+                            var displayName = status.ToString() switch
+                            {
+                                "Pending" => "Bekliyor",
+                                "Approved" => "Onaylandı",
+                                "Cancelled" => "İptal",
+                                "Completed" => "Tamamlandı",
+                                _ => status.ToString()
+                            };
+
+                            <option value="@status" selected="@(status.Equals(Model.Status) ? "selected" : null)">
+                                @displayName
+                            </option>
+                        }
+                    </select>
+                    <span asp-validation-for="Status" class="text-danger"></span>
+                </div>
+
+                <!-- Butonlar -->
+                <div class="d-flex justify-content-end mt-4">
+                    <a asp-action="Index" class="btn btn-outline-secondary me-2">
+                        <i class="bi bi-x-circle"></i> İptal
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-check-circle"></i> Kaydet
+                    </button>
+                </div>
+            </form>
         </div>
-
-        
-        <div class="mb-3">
-            <label asp-for="BusinessId" class="form-label">İşletme</label>
-            <select asp-for="BusinessId" asp-items="Model.Businesses" class="form-select"></select>
-            <span asp-validation-for="BusinessId" class="text-danger"></span>
-        </div>
-
-        
-        <div class="mb-3">
-            <label asp-for="Status" class="form-label">Durum</label>
-            <select asp-for="Status" class="form-select">
-                @foreach (var status in Enum.GetValues(typeof(AppointmentSystem.Entities.AppointmentStatus)))
-                {
-                    <option value="@status" selected="@(status.Equals(Model.Status) ? "selected" : null)">
-                        @status
-                    </option>
-                }
-            </select>
-            <span asp-validation-for="Status" class="text-danger"></span>
-        </div>
-
-        
-        <button type="submit" class="btn btn-primary">Kaydet</button>
-        <a asp-action="Index" class="btn btn-secondary">İptal</a>
-    </form>
+    </div>
 </div>
