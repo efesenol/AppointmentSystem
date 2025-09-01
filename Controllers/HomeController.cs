@@ -22,7 +22,7 @@ public class HomeController : Controller
     public IActionResult Index(int id)
     {
         var userId = HttpContext.Session.GetInt32("Usersid");
-        if (userId == null) return RedirectToAction("Login","Login");
+        if (userId == null) return RedirectToAction("Login", "Login");
         var appointment = _context.Appointments
         .Include(vm => vm.Users)
         .Include(vm => vm.Business)
@@ -105,13 +105,82 @@ public class HomeController : Controller
     }
 
     [HttpPost]
-    [Route("Delete/{id}")] 
+    [Route("Delete/{id}")]
     public IActionResult Delete(int id)
     {
         var appointment = _context.Appointments.Find(id);
         if (appointment == null) return NotFound();
         appointment.IsDelete = true;
         _context.SaveChanges();
+        return RedirectToAction("Index");
+    }
+    [Route("yeni-randevu")]
+    public IActionResult NewAppointment()
+    {
+        var userId = HttpContext.Session.GetInt32("Usersid");
+        if (userId == null)
+            return RedirectToAction("Login", "Login");
+
+        // Kullanıcı bilgisi
+        var user = _context.Users.FirstOrDefault(u => u.Id == userId);
+
+        // Aktif işletmeler dropdown için
+        var businesses = _context.Business
+            .Where(b => b.IsActive && !b.IsDelete)
+            .Select(b => new SelectListItem
+            {
+                Value = b.Id.ToString(),
+                Text = b.Name
+            })
+            .ToList();
+
+        var vm = new NewAppointmentViewModel
+        {
+            UserName = user?.FullName,
+            AppointmentDate = DateTime.Now, // default şimdi
+            Businesses = businesses
+        };
+
+        return View(vm);
+    }
+
+
+    [HttpPost]
+    [Route("yeni-randevu")]
+    public IActionResult NewAppointment(NewAppointmentViewModel model)
+    {
+        if (!ModelState.IsValid)
+        {
+            // dropdown tekrar doldurulmalı yoksa view boş kalır
+            model.Businesses = _context.Business
+                .Where(b => b.IsActive && !b.IsDelete)
+                .Select(b => new SelectListItem
+                {
+                    Value = b.Id.ToString(),
+                    Text = b.Name
+                })
+                .ToList();
+
+            return View(model);
+        }
+
+        var userId = HttpContext.Session.GetInt32("Usersid");
+        if (userId == null) return RedirectToAction("Login", "Login");
+
+        var appointment = new Appointments
+        {
+            UsersId = userId.Value,
+            AppointmentDate = model.AppointmentDate,
+            BusinessId = model.BusinessId,
+            Status = AppointmentSystem.Entities.AppointmentStatus.Bekliyor, // yeni randevu = Bekliyor
+            Note = model.AppointmentNote,
+            IsActive = true,
+            IsDelete = false
+        };
+
+        _context.Appointments.Add(appointment);
+        _context.SaveChanges();
+
         return RedirectToAction("Index");
     }
 
