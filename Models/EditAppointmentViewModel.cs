@@ -10,6 +10,7 @@ namespace AppointmentSystem.Models
         public string? UserName { get; set; }
         public DateTime AppointmentDate { get; set; }
 
+        public string? AppointmentNote { get; set; }
         public int BusinessId { get; set; }              
         public List<SelectListItem>? Businesses { get; set; } 
 

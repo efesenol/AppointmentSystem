@@ -1,92 +1,147 @@
 @{
-    Layout = "_Layout";
+    Layout = "";
 }
+<link id="googleFonts"
+    href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800%7CShadows+Into+Light&display=swap"
+    rel="stylesheet" type="text/css">
 
-<style>
+<!-- Vendor CSS -->
 
-    .textcolor {
-        border-color: #656da4 !important;
-        border-width: 2.3px;
-        border-radius: 0.5rem;
-        color: #656da4;
-        font-size: 14px;
-        font-weight: bold;
-    }
+<link rel="stylesheet" href="~/vendor/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="~/vendor/fontawesome-free/css/all.min.css">
+<link rel="stylesheet" href="~/vendor/animate/animate.compat.css">
+<link rel="stylesheet" href="~/vendor/simple-line-icons/css/simple-line-icons.min.css">
+<link rel="stylesheet" href="~/vendor/owl.carousel/assets/owl.carousel.min.css">
+<link rel="stylesheet" href="~/vendor/owl.carousel/assets/owl.theme.default.min.css">
+<link rel="stylesheet" href="~/vendor/magnific-popup/magnific-popup.min.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
-        .textcolor:hover {
-            background-color: #656da4;
-            color: white;
-        }
-</style>
+<!-- Theme CSS -->
+<link rel="stylesheet" href="~/css/theme.css">
+<link rel="stylesheet" href="~/css/theme-elements.css">
+<link rel="stylesheet" href="~/css/theme-blog.css">
+<link rel="stylesheet" href="~/css/theme-shop.css">
 
-<div class="container pt-2 pb-4">
-    <div class="row pb-4">
+<!-- Current Page CSS -->
+<link rel="stylesheet" href="~/vendor/circle-flip-slideshow/css/component.css">
 
-        <section style="background:#656da4" class="call-to-action call-to-action-strong-grey content-align-center ">
-            <div class="container">
-                <div class="row">
-                    <center>
-                        <h2 style="margin:0px!important;letter-spacing:4px;color: white !important" class="font-weight-normal"><strong>Login</strong></h2>
-                    </center>
+<!-- Skin CSS -->
+<link id="skinCSS" rel="stylesheet" href="~/css/skins/default.css">
+
+<!-- Theme Custom CSS -->
+<link rel="stylesheet" href="~/css/custom.css">
+
+<!-- Head Libs -->
+<script src="~/vendor/modernizr/modernizr.min.js"></script>
+
+
+<div class="container-fluid vh-100">
+    <div class="row h-100">
+        <!-- Sol taraf: Login kutusu -->
+        <div class="col-md-6 d-flex align-items-center justify-content-center bg-white">
+            <div class="w-75">
+                <h3 class="fw-bold mb-3">GİRİŞ YAP</h3>
+                <p class="text-muted">Sisteme kayıt olduğunuz e-posta adresi ve parola ile giriş yapabilirsiniz. 🙂</p>
+
+                <!-- Sadece input görünümleri -->
+                <div class="mb-3">
+                    <label class="form-label">E-posta Adresi</label>
+
+                    <input name="email" type="text" value="" class="form-control" required="" id="loginEmail"
+                        placeholder="ornek@mail.com">
                 </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Şifre</label>
+                    <input name="password" type="password" value="" class="form-control" required="" id="loginPassword"
+                        placeholder="••••••">
+                </div>
+
+                <!-- Checkbox & Link -->
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="form-check">
+
+                        <input type="checkbox" class="form-check-input" id="rememberMe">
+                        <label class="form-check-label" for="rememberMe">Oturumum açık kalsın</label>
+
+                    </div>
+                    <a onclick="btn_forgotPassword()" class=" text-decoration-none text-primary cur-pointer">Şifremi
+                        unuttum</a>
+                </div>
+
+                <!-- Butonlar -->
+
+                <input onclick="btn_Login()" class="btn btn-primary w-100 mb-2" type="submit" value="Login">
+                <button class="btn btn-outline-secondary w-100">Hemen Kayıt Ol</button>
             </div>
-        </section>
+        </div>
 
-        <p></p>
-        <p></p>
-        <p></p>
+        <!-- Sağ taraf: Tanıtım -->
+        <div class="col-md-6 d-flex flex-column justify-content-center text-white"
+            style="background: linear-gradient(135deg, #4361ee, #3a0ca3);">
+            <div class="px-5">
+                <h2 class="fw-bold fs-2  mb-3 text-light">📅 Randevu Sistemi</h2>
+                <p class="fs-5 text-light mb-5">
+                    Randevularınızı kolayca yönetin, zamanınızı verimli kullanın.
+                    Hem işletmeler hem de kullanıcılar için tek noktadan çözüm.
+                </p>
 
-        <center>
-
-            <div class="col-md-6 col-lg-5 mb-5 mb-lg-0">
-
-                <div class="row">
-                    <div class="form-group col">
-                        <label for="loginEmail" class="form-label text-color-dark text-3"><span style="color: #656da4 !important"><b>E-mail </b></span><span class="text-color-danger">*</span></label>
-                        <input name="email" type="text" value="" class="form-control textcolor" required="" id="loginEmail">
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="form-group col">
-                        <label for="loginPassword" class="form-label text-color-dark text-3"><span style="color: #656da4 !important"><b>Şifre </b></span><span class="text-color-danger">*</span></label>
-                        <input name="password" type="password" value="" class="form-control textcolor" required="" id="loginPassword">
-                    </div>
-                </div>
-
-                <p></p>
-                <p></p>
-
-                <div class="row justify-content-between">
-                    <div class="form-group col-md-auto">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="rememberMe" checked>
-                            <label class="form-label custom-control-label cur-pointer text-2" for="rememberMe"><span style="color: #656da4 !important"><b>Beni hatırla</b></span></label>
+                <!-- 3 kutucuk -->
+                <div class="row text-center mb-4">
+                    <div class="col-4">
+                        <div class="p-3 bg-white bg-opacity-10 rounded shadow-sm">
+                            <i class="bi bi-speedometer2 fs-3 text-white"></i>
+                            <p class="mt-2 text-white">Hızlı İşlem</p>
                         </div>
                     </div>
-                    @* <div class="form-group col-md-auto">
-                        <button onclick="btn_forgotPassword()" class="textcolor">Şifremi unuttum</button>
-                    </div> *@
-                </div>
-
-                <p></p>
-                <p></p>
-
-                <div class="row">
-                    <div class="form-group col">
-                        <input onclick="btn_Login()" class="textcolor" style="width:100%;height:50px;" type="submit" value="Login">
+                    <div class="col-4">
+                        <div class="p-3 bg-white bg-opacity-10 rounded shadow-sm">
+                            <i class="bi bi-people-fill fs-3 text-white"></i>
+                            <p class="mt-2 text-white">Kolay Takip</p>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="p-3 bg-white bg-opacity-10 rounded shadow-sm">
+                            <i class="bi bi-shield-lock fs-3 text-white"></i>
+                            <p class="mt-2 text-white">Güvenli</p>
+                        </div>
                     </div>
                 </div>
 
+                <!-- Butonlar -->
+                <div class="d-flex gap-3 justify-content-center">
+                    <a href="#" class="btn btn-light fw-bold text-primary px-4">🚀 Hemen Başla</a>
+                    <a href="#" class="btn btn-outline-light px-4">Daha Fazla Bilgi</a>
+                </div>
             </div>
-        </center>
-
+        </div>
     </div>
 </div>
 
-@section Scripts {
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="~/js/myScript/login.js?=v1"></script>
-}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="~/js/myScript/login.js?=v1"></script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- Vendor -->
+<script src="~/vendor/plugins/js/plugins.min.js"></script>
+
+<!-- Theme Base, Components and Settings -->
+<script src="~/js/theme.js"></script>
+
+<!-- Circle Flip Slideshow Script -->
+<script src="~/endor/circle-flip-slideshow/js/jquery.flipshow.min.js"></script>
+<!-- Current Page Views -->
+<script src="~/js/views/view.home.js"></script>
+
+<!-- Theme Custom -->
+<script src="~/js/custom.js"></script>
+
+<!-- Theme Initialization Files -->
+<script src="~/js/theme.init.js"></script>
+
 
 

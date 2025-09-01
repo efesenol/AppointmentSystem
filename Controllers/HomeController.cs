@@ -60,6 +60,7 @@ public class HomeController : Controller
             AppointmentDate = appointment.AppointmentDate,
             BusinessId = appointment.BusinessId,
             Status = appointment.Status,
+            AppointmentNote = appointment.Note,
 
             Businesses = _context.Business
             .Where(b => b.IsActive)
@@ -96,6 +97,7 @@ public class HomeController : Controller
         appointment.AppointmentDate = model.AppointmentDate;
         appointment.BusinessId = model.BusinessId;
         appointment.Status = model.Status;
+        appointment.Note = model.AppointmentNote;
 
 
         _context.SaveChanges();

@@ -2,75 +2,125 @@
 @using Microsoft.AspNetCore.Mvc.Rendering
 
 <div class="container mt-5">
-    <div class="card shadow-lg border-0 rounded-4">
-        <div class="card-header bg-primary text-white">
-            <h4 class="mb-0">✏️ Randevu Düzenle</h4>
+    <!-- Sayfa Başlığı -->
+    <div class="mb-4 text-center">
+        <h2 class="fw-bold text-primary">
+            <i class="bi bi-pencil-square me-2"></i> Randevu Düzenle
+        </h2>
+        <p class="text-muted">
+            Buradan seçtiğiniz randevunun tarihini, işletmesini ve durumunu güncelleyebilirsiniz.
+        </p>
+    </div>
+
+    <div class="row">
+        <!-- Sol kısım: Form -->
+        <div class="col-lg-8">
+            <div class="card shadow-lg border-0 rounded-4">
+                <div class="card-header text-white" style="background: linear-gradient(135deg, #4e73df, #224abe);">
+                    <h5 class="mb-0 text-light"><i class="bi bi-journal-text me-2 text-light"></i> Randevu Bilgileri</h5>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="Edit" method="post">
+                        <input type="hidden" asp-for="AppointmentId" />
+                        <div class="row">
+                            <!-- Kullanıcı -->
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="UserName" class="form-label fw-semibold">
+                                    <i class="bi bi-person-circle text-primary"></i> Randevu Alan Kişi
+                                </label>
+                                <input asp-for="UserName" class="form-control" readonly />
+                            </div>
+
+                            <!-- Tarih -->
+                            <div class="col-md-6 mb-3">
+    <label asp-for="AppointmentDate" class="form-label fw-semibold">
+        <i class="bi bi-calendar-event text-primary"></i> Randevu Tarihi
+    </label>
+    <input asp-for="AppointmentDate" class="form-control" type="datetime-local"
+           min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
+    <span asp-validation-for="AppointmentDate" class="text-danger small"></span>
+</div>
+                        </div>
+
+                        <div class="row">
+                            <!-- İşletme -->
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="BusinessId" class="form-label fw-semibold">
+                                    <i class="bi bi-building text-primary"></i> İşletme
+                                </label>
+                                <select asp-for="BusinessId" asp-items="Model.Businesses" class="form-select"></select>
+                                <span asp-validation-for="BusinessId" class="text-danger small"></span>
+                            </div>
+
+                            <!-- Durum -->
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Status" class="form-label fw-semibold">
+                                    <i class="bi bi-flag text-primary"></i> Durum
+                                </label>
+                                <select asp-for="Status" class="form-select">
+                                    @foreach (var status in Enum.GetValues(typeof(AppointmentSystem.Entities.AppointmentStatus)))
+                                    {
+                                        var displayName = status.ToString() switch
+                                        {
+                                            "Pending" => "Bekliyor",
+                                            "Approved" => "Onaylandı",
+                                            "Cancelled" => "İptal",
+                                            "Completed" => "Tamamlandı",
+                                            _ => status.ToString()
+                                        };
+
+                                        <option value="@status" selected="@(status.Equals(Model.Status) ? "selected" : null)">
+                                            @displayName
+                                        </option>
+                                    }
+                                </select>
+                                <span asp-validation-for="Status" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <!-- Not alanı -->
+                        <div class="mb-3">
+                            <label asp-for="AppointmentNote" class="form-label fw-semibold">
+                                <i class="bi bi-pencil text-primary"></i> Not (Opsiyonel)
+                            </label>
+                            <textarea asp-for="AppointmentNote" class="form-control" rows="3" placeholder="Bu randevu için özel not ekleyebilirsiniz..."></textarea>
+                        </div>
+
+
+                        <!-- Butonlar -->
+                        <div class="d-flex justify-content-end mt-4">
+                            <a asp-action="Index" class="btn btn-outline-secondary me-2">
+                                <i class="bi bi-x-circle"></i> Vazgeç
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-check-circle"></i> Kaydet
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-        <div class="card-body p-4">
-            <form asp-action="Edit" method="post">
-                <input type="hidden" asp-for="AppointmentId" />
 
-                <!-- Kullanıcı -->
-                <div class="mb-3">
-                    <label asp-for="UserName" class="form-label fw-bold">
-                        <i class="bi bi-person-circle"></i> Randevu Alan Kişi
-                    </label>
-                    <input asp-for="UserName" class="form-control" readonly />
+        <!-- Sağ kısım: Bilgi Kartı -->
+        <div class="col-lg-4 mt-4 mt-lg-0">
+            <div class="card shadow-sm border-0 rounded-4 h-100">
+                <div class="card-header bg-light">
+                    <h6 class="mb-0 fw-bold text-primary"><i class="bi bi-info-circle me-2"></i> Bilgilendirme</h6>
                 </div>
+                <div class="card-body">
+                    <p class="small text-muted mb-3">
+                        - Randevu tarihini değiştirdiğinizde eski tarih iptal edilir.<br />
+                        - İşletme seçimini güncellediğinizde bildirim gönderilir.<br />
+                        - Durum alanını değiştirdiğinizde kullanıcıya otomatik bilgilendirme yapılır.
+                    </p>
 
-                <!-- Tarih -->
-                <div class="mb-3">
-                    <label asp-for="AppointmentDate" class="form-label fw-bold">
-                        <i class="bi bi-calendar-event"></i> Randevu Tarihi
-                    </label>
-                    <input asp-for="AppointmentDate" class="form-control" type="datetime-local" />
-                    <span asp-validation-for="AppointmentDate" class="text-danger"></span>
+                    <div class="bg-light p-3 rounded text-center">
+                        <i class="bi bi-calendar-check fs-1 text-primary"></i>
+                        <p class="mt-2 mb-0 text-muted small">Son Güncelleme Tarihi:</p>
+                        <p class="fw-bold">@DateTime.Now.ToString("dd MMM yyyy HH:mm")</p>
+                    </div>
                 </div>
-
-                <!-- İşletme -->
-                <div class="mb-3">
-                    <label asp-for="BusinessId" class="form-label fw-bold">
-                        <i class="bi bi-building"></i> İşletme
-                    </label>
-                    <select asp-for="BusinessId" asp-items="Model.Businesses" class="form-select"></select>
-                    <span asp-validation-for="BusinessId" class="text-danger"></span>
-                </div>
-
-                <!-- Durum -->
-                <div class="mb-3">
-                    <label asp-for="Status" class="form-label fw-bold">
-                        <i class="bi bi-flag"></i> Durum
-                    </label>
-                    <select asp-for="Status" class="form-select">
-                        @foreach (var status in Enum.GetValues(typeof(AppointmentSystem.Entities.AppointmentStatus)))
-                        {
-                            var displayName = status.ToString() switch
-                            {
-                                "Pending" => "Bekliyor",
-                                "Approved" => "Onaylandı",
-                                "Cancelled" => "İptal",
-                                "Completed" => "Tamamlandı",
-                                _ => status.ToString()
-                            };
-
-                            <option value="@status" selected="@(status.Equals(Model.Status) ? "selected" : null)">
-                                @displayName
-                            </option>
-                        }
-                    </select>
-                    <span asp-validation-for="Status" class="text-danger"></span>
-                </div>
-
-                <!-- Butonlar -->
-                <div class="d-flex justify-content-end mt-4">
-                    <a asp-action="Index" class="btn btn-outline-secondary me-2">
-                        <i class="bi bi-x-circle"></i> İptal
-                    </a>
-                    <button type="submit" class="btn btn-primary">
-                        <i class="bi bi-check-circle"></i> Kaydet
-                    </button>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>

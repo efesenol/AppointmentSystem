@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/AppointmentSystem.styles.css" asp-append-version="true" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+
     <meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">	
 
@@ -87,7 +90,7 @@
 						<div class="header-column flex-row flex-lg-column justify-content-center h-100">
 							<div class="header-row flex-row justify-content-start justify-content-lg-center py-lg-5">
 								<div class="header-logo">
-									<a href="index.html">
+									<a href="/">
 										<img alt="Porto" width="100" height="48" src="img/logo-flat-light.png">
 									</a>
 								</div>
@@ -98,72 +101,19 @@
 										<nav class="collapse">
 											<ul class="nav nav-pills" id="mainNav">
 												<li class="dropdown">
-													<a class="dropdown-item dropdown-toggle active" href="index.html">
-														Home
+													<a class="dropdown-item dropdown-toggle active" href="/">
+														Randevularım
 													</a>
 													<ul class="dropdown-menu">
 														<li>
 															<a class="dropdown-item" href="index.html">
-																Landing Page
-															</a>
-														</li>
-														<li>
-															<a class="dropdown-item" href="index.html#demos">
-																Demos <span class="tip tip-dark">hot</span>
+																Geçmiş Randevularım
 															</a>
 														</li>
 														<li class="dropdown-submenu">
-															<a class="dropdown-item" href="#">Classic</a>
-															<ul class="dropdown-menu">
-																<li><a class="dropdown-item" href="index-classic.html">Classic - Original</a></li>
-																<li><a class="dropdown-item" href="index-classic-color.html">Classic - Color</a></li>
-																<li><a class="dropdown-item" href="index-classic-light.html">Classic - Light</a></li>
-																<li><a class="dropdown-item" href="index-classic-video.html">Classic - Video</a></li>
-																<li><a class="dropdown-item" href="index-classic-video-light.html">Classic - Video - Light</a></li>
-															</ul>
+															<a class="dropdown-item" href="#">Bekleyen Randevularım</a>
 														</li>
-														<li class="dropdown-submenu">
-															<a class="dropdown-item" href="#">Corporate</a>
-															<ul class="dropdown-menu">
-																<li><a class="dropdown-item" href="index-corporate.html">Corporate - Version 1</a></li>
-																<li><a class="dropdown-item" href="index-corporate-2.html">Corporate - Version 2</a></li>
-																<li><a class="dropdown-item" href="index-corporate-3.html">Corporate - Version 3</a></li>
-																<li><a class="dropdown-item" href="index-corporate-4.html">Corporate - Version 4</a></li>
-																<li><a class="dropdown-item" href="index-corporate-5.html">Corporate - Version 5</a></li>
-																<li><a class="dropdown-item" href="index-corporate-6.html">Corporate - Version 6</a></li>
-																<li><a class="dropdown-item" href="index-corporate-7.html">Corporate - Version 7</a></li>
-																<li><a class="dropdown-item" href="index-corporate-8.html">Corporate - Version 8</a></li>
-																<li><a class="dropdown-item" href="index-corporate-9.html">Corporate - Version 9</a></li>
-																<li><a class="dropdown-item" href="index-corporate-10.html"->Corporate - Version 10</a></li>
-																<li><a class="dropdown-item" href="index.html#demos"->More...</a></li>
-															</ul>
-														</li>
-														<li class="dropdown-submenu">
-															<a class="dropdown-item" href="#">Portfolio</a>
-															<ul class="dropdown-menu">
-																<li><a class="dropdown-item" href="index-portfolio.html">Portfolio - Version 1</a></li>
-																<li><a class="dropdown-item" href="index-portfolio-2.html">Portfolio - Version 2</a></li>
-																<li><a class="dropdown-item" href="index-portfolio-3.html">Portfolio - Version 3</a></li>
-																<li><a class="dropdown-item" href="index-portfolio-4.html">Portfolio - Version 4</a></li>
-																<li><a class="dropdown-item" href="index-portfolio-5.html">Portfolio - Version 5</a></li>
-															</ul>
-														</li>		
-														<li class="dropdown-submenu">
-															<a class="dropdown-item" href="#">Blog</a>
-															<ul class="dropdown-menu">
-																<li><a class="dropdown-item" href="index-blog.html">Blog - Version 1</a></li>
-																<li><a class="dropdown-item" href="index-blog-2.html">Blog - Version 2</a></li>
-																<li><a class="dropdown-item" href="index-blog-3.html">Blog - Version 3</a></li>
-																<li><a class="dropdown-item" href="index-blog-4.html">Blog - Version 4</a></li>
-																<li><a class="dropdown-item" href="index-blog-5.html">Blog - Version 5</a></li>
-															</ul>
-														</li>
-														<li class="dropdown-submenu">
-															<a class="dropdown-item" href="#">One Page</a>
-															<ul class="dropdown-menu">
-																<li><a class="dropdown-item" href="index-one-page.html">One Page Original</a></li>
-															</ul>
-														</li>
+
 													</ul>
 												</li>
 												<li class="dropdown dropdown-mega">
@@ -1027,9 +977,15 @@
 									<li class="social-icons-linkedin"><a href="http://www.linkedin.com/" target="_blank" title="Linkedin"><i class="fab fa-linkedin-in"></i></a></li>
 								</ul>
 								<p class="d-none d-lg-block text-1 pt-3">© 2022 PORTO. All rights reserved</p>
-								<button class="btn header-btn-collapse-nav" data-bs-toggle="collapse" data-bs-target=".header-nav-main nav">
+								<button class="btn header-btn-collapse-nav collapsed" data-bs-toggle="collapse" data-bs-target=".header-nav-main nav"aria-expanded="false">
 									<i class="fas fa-bars"></i>
 								</button>
+							
+								
+
+         
+       
+    
 							</div>
 						</div>
 					</div>
@@ -1044,10 +1000,8 @@
     
 		</div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- Vendor -->
@@ -1057,7 +1011,7 @@
 		<script src="~/js/theme.js"></script>
 
 		<!-- Circle Flip Slideshow Script -->
-		<script src="~/endor/circle-flip-slideshow/js/jquery.flipshow.min.js"></script>
+		<script src="~/vendor/circle-flip-slideshow/js/jquery.flipshow.min.js"></script>
 		<!-- Current Page Views -->
 		<script src="~/js/views/view.home.js"></script>
 

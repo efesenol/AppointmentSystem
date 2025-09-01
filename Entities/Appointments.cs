@@ -11,6 +11,7 @@ namespace AppointmentSystem.Entities
         public DateTime AppointmentDate { get; set; }
        
         public AppointmentStatus Status { get; set; }
+        public string? Note { get; set; }
         public int UsersId { get; set; }
         public Users? Users { get; set; }
         public int BusinessId { get; set; }
