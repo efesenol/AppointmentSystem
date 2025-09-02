@@ -172,7 +172,7 @@ public class HomeController : Controller
             UsersId = userId.Value,
             AppointmentDate = model.AppointmentDate,
             BusinessId = model.BusinessId,
-            Status = AppointmentSystem.Entities.AppointmentStatus.Bekliyor, // yeni randevu = Bekliyor
+            Status = AppointmentSystem.Entities.AppointmentStatus.Bekliyor, 
             Note = model.AppointmentNote,
             IsActive = true,
             IsDelete = false
@@ -188,6 +188,23 @@ public class HomeController : Controller
     public IActionResult Privacy()
     {
         return View();
+    }
+
+    [Route("isletmeler")]
+    public IActionResult Businesses()
+    {
+        var businesses = _context.Business
+        .Where(a => a.IsActive == true && a.IsDelete == false)
+        .Select( a => new BusinessViewModel
+        {
+            BusinessAdress = a.Address,
+            BusinessName = a.Name,
+            BusinessId = a.Id,
+            BusinessDescrption = a.Descrption
+        })
+        .ToList();
+       
+        return View(businesses);
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
