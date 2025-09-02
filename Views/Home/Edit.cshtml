@@ -17,7 +17,8 @@
         <div class="col-lg-8">
             <div class="card shadow-lg border-0 rounded-4">
                 <div class="card-header text-white" style="background: linear-gradient(135deg, #4e73df, #224abe);">
-                    <h5 class="mb-0 text-light"><i class="bi bi-journal-text me-2 text-light"></i> Randevu Bilgileri</h5>
+                    <h5 class="mb-0 text-light"><i class="bi bi-journal-text me-2 text-light"></i> Randevu Bilgileri
+                    </h5>
                 </div>
                 <div class="card-body p-4">
                     <form asp-action="Edit" method="post">
@@ -33,13 +34,13 @@
 
                             <!-- Tarih -->
                             <div class="col-md-6 mb-3">
-    <label asp-for="AppointmentDate" class="form-label fw-semibold">
-        <i class="bi bi-calendar-event text-primary"></i> Randevu Tarihi
-    </label>
-    <input asp-for="AppointmentDate" class="form-control" type="datetime-local"
-           min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
-    <span asp-validation-for="AppointmentDate" class="text-danger small"></span>
-</div>
+                                <label asp-for="AppointmentDate" class="form-label fw-semibold">
+                                    <i class="bi bi-calendar-event text-primary"></i> Randevu Tarihi
+                                </label>
+                                <input asp-for="AppointmentDate" class="form-control" type="datetime-local"
+                                    min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
+                                <span asp-validation-for="AppointmentDate" class="text-danger small"></span>
+                            </div>
                         </div>
 
                         <div class="row">
@@ -58,7 +59,8 @@
                                     <i class="bi bi-flag text-primary"></i> Durum
                                 </label>
                                 <select asp-for="Status" class="form-select">
-                                    @foreach (var status in Enum.GetValues(typeof(AppointmentSystem.Entities.AppointmentStatus)))
+                                    @foreach (var status in
+                                                                        Enum.GetValues(typeof(AppointmentSystem.Entities.AppointmentStatus)))
                                     {
                                         var displayName = status.ToString() switch
                                         {
@@ -69,7 +71,8 @@
                                             _ => status.ToString()
                                         };
 
-                                        <option value="@status" selected="@(status.Equals(Model.Status) ? "selected" : null)">
+                                        <option value="@status"
+                                            selected="@(status.Equals(Model.Status) ? "selected" : null)">
                                             @displayName
                                         </option>
                                     }
@@ -83,7 +86,8 @@
                             <label asp-for="AppointmentNote" class="form-label fw-semibold">
                                 <i class="bi bi-pencil text-primary"></i> Not (Opsiyonel)
                             </label>
-                            <textarea asp-for="AppointmentNote" class="form-control" rows="3" placeholder="Bu randevu için özel not ekleyebilirsiniz..."></textarea>
+                            <textarea asp-for="AppointmentNote" class="form-control" rows="3"
+                                placeholder="Bu randevu için özel not ekleyebilirsiniz..."></textarea>
                         </div>
 
 

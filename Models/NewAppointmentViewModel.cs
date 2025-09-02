@@ -8,7 +8,9 @@ namespace AppointmentSystem.Models
         public int Id { get; set; }
         public int AppointmentId { get; set; }
         public string? UserName { get; set; }
+        public string? BusinessName { get; set; }
         public DateTime AppointmentDate { get; set; }
+        public DateTime CreateTime { get; set; }
 
         public string? AppointmentNote { get; set; }
         public int BusinessId { get; set; }              

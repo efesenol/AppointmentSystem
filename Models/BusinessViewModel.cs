@@ -9,5 +9,6 @@ namespace AppointmentSystem.Models
         public string? BusinessName { get; set; }
         public string? BusinessDescrption { get; set; }
         public string? BusinessAdress { get; set; }
+        public string? BusinessImg { get; set; }
     }
 }
