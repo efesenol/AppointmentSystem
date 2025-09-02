@@ -6,10 +6,8 @@
         <div class="col-lg-4 mt-4 mt-lg-0">
             <div class="card shadow-sm border-0 text-center mb-4">
                 <div class="card-body">
-                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
-                     alt="Profil Fotoğrafı"
-                     class="rounded-circle mx-auto mb-3"
-                     style="width: 120px; height: 120px; object-fit: cover;">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Profil Fotoğrafı"
+                        class="rounded-circle mx-auto mb-3" style="width: 120px; height: 120px; object-fit: cover;">
                     <h5 class="fw-bold">@Model.UserName</h5>
                     <p class="text-muted small mb-1 fs-6"><i class="bi bi-envelope"></i> @Model.Email</p>
                     <p class="text-muted small fs-6"><i class="bi bi-telephone"></i> @Model.Phone</p>
@@ -18,31 +16,32 @@
             </div>
 
             <div class="row g-3">
-    <div class="col-6">
-        <div class="card shadow-sm border-0 text-center p-3 h-100">
-            <h6 class="fw-bold">📅 @Model.TotalAppointments</h6>
-            <small class="text-muted">Toplam</small>
-        </div>
-    </div>
-    <div class="col-6">
-        <div class="card shadow-sm border-0 text-center p-3 h-100">
-            <h6 class="fw-bold text-success">✅ @Model.Completed</h6>
-            <small class="text-muted">Tamamlandı</small>
-        </div>
-    </div>
-    <div class="col-6">
-        <div class="card shadow-sm border-0 text-center p-3 h-100">
-            <h6 class="fw-bold text-warning">⏳ @Model.Pending</h6>
-            <small class="text-muted">Bekleyen</small>
-        </div>
-    </div>
-    <div class="col-6">
-        <div class="card shadow-sm border-0 text-center p-3 h-100">
-            <h6 class="fw-bold text-danger">❌ @Model.Cancelled</h6>
-            <small class="text-muted">İptal</small>
-        </div>
-    </div>
-</div>
+
+                <div class="col-6">
+                    <div class="card shadow-sm border-0 text-center p-3 h-100">
+                        <h6 class="fw-bold">📅 @Model.TotalAppointments</h6>
+                        <small class="text-muted">Toplam</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="card shadow-sm border-0 text-center p-3 h-100">
+                        <h6 class="fw-bold text-success">✅ @Model.Completed</h6>
+                        <small class="text-muted">Tamamlandı</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="card shadow-sm border-0 text-center p-3 h-100">
+                        <h6 class="fw-bold text-warning">⏳ @Model.Pending</h6>
+                        <small class="text-muted">Bekleyen</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="card shadow-sm border-0 text-center p-3 h-100">
+                        <h6 class="fw-bold text-danger">❌ @Model.Cancelled</h6>
+                        <small class="text-muted">İptal</small>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="col-lg-8">
@@ -72,7 +71,8 @@
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label fw-semibold">Kayıt Tarihi</label>
-                                <input type="text" class="form-control" value="@Model.CreateTime.ToString("dd.MM.yyyy HH:mm")" readonly />
+                                <input type="text" class="form-control"
+                                    value="@Model.CreateTime.ToString("dd.MM.yyyy HH:mm")" readonly />
                             </div>
                         </div>
 
@@ -80,13 +80,16 @@
                         <h6 class="text-primary mt-4"><i class="bi bi-lock-fill me-2"></i> Şifre Güncelle</h6>
                         <div class="row">
                             <div class="col-md-4 mb-2">
-                                <input asp-for="CurrentPassword" type="password" class="form-control" placeholder="Mevcut Şifre" />
+                                <input asp-for="CurrentPassword" type="password" class="form-control"
+                                    placeholder="Mevcut Şifre" />
                             </div>
                             <div class="col-md-4 mb-2">
-                                <input asp-for="NewPassword" type="password" class="form-control" placeholder="Yeni Şifre" />
+                                <input asp-for="NewPassword" type="password" class="form-control"
+                                    placeholder="Yeni Şifre" />
                             </div>
                             <div class="col-md-4 mb-2">
-                                <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Yeni Şifre Tekrar" />
+                                <input asp-for="ConfirmPassword" type="password" class="form-control"
+                                    placeholder="Yeni Şifre Tekrar" />
                             </div>
                         </div>
 
@@ -109,41 +112,40 @@
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-       document.addEventListener("DOMContentLoaded", function () {
-    @if (TempData["SuccessMessage"] != null)
-    {
-        <text>
-            Swal.fire({
-                icon: 'success',
-                title: 'Başarılı',
-                text: '@Html.Raw(TempData["SuccessMessage"])',
-                confirmButtonText: 'Tamam'
-            });
-        </text>
-    }
-    else if (TempData["ErrorMessage"] != null)
-    {
-        <text>
-            Swal.fire({
-                icon: 'error',
-                title: 'Hata',
-                text: '@Html.Raw(TempData["ErrorMessage"])',
-                confirmButtonText: 'Tamam'
-            });
-        </text>
-    }
-    else if (TempData["WarningMessage"] != null)
-    {
-        <text>
-            Swal.fire({
-                icon: 'info',
-                title: 'Bilgi',
-                text: '@Html.Raw(TempData["WarningMessage"])',
-                confirmButtonText: 'Tamam'
-            });
-        </text>
-    }
-});
+        document.addEventListener("DOMContentLoaded", function () {
+            @if (TempData["SuccessMessage"] != null)
+                {
+                    <text>
+                        Swal.fire({
+                            icon: 'success',
+                        title: 'Başarılı',
+                        text: '@Html.Raw(TempData["SuccessMessage"])',
+                        confirmButtonText: 'Tamam'
+                    });
+                    </text>
+            }
+        else if (TempData["ErrorMessage"] != null)
+                {
+                    <text>
+                        Swal.fire({
+                            icon: 'error',
+                        title: 'Hata',
+                        text: '@Html.Raw(TempData["ErrorMessage"])',
+                        confirmButtonText: 'Tamam'
+                    });
+                    </text>
+            }
+        else if (TempData["WarningMessage"] != null)
+                {
+                    <text>
+                        Swal.fire({
+                            icon: 'info',
+                        title: 'Bilgi',
+                        text: '@Html.Raw(TempData["WarningMessage"])',
+                        confirmButtonText: 'Tamam'
+                    });
+                    </text>
+            }
+    });
     </script>
 }
-

@@ -1,0 +1,241 @@
+@{
+    Layout = null;
+}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+<style>
+.scroll-down i {
+    display: inline-block;
+    animation: bounceY 1.2s infinite ease-in-out;
+}
+@@keyframes bounceY {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(12px); }
+}
+</style>
+
+
+<!-- Hero Bölümü -->
+<section class="text-center text-white d-flex flex-column justify-content-center align-items-center position-relative" 
+         style="min-height: 100vh; background: linear-gradient(135deg,#4e73df,#224abe);">
+    <div class="container">
+        <i class="bi bi-calendar-check-fill display-1 text-warning"></i>
+        <h1 class="fw-bold mt-3">AppointmentSystem</h1>
+        <p class="lead mb-4">Randevularınızı kolayca yönetin, işletmeniz için güçlü bir çözüm.  
+           Hızlı, güvenli ve kullanıcı dostu 🚀</p>
+        <div class="d-flex gap-3 justify-content-center">
+            <a href="/login" class="btn btn-light btn-lg fw-bold text-primary px-4">
+                <i class="bi bi-box-arrow-in-right"></i> Giriş Yap
+            </a>
+            <a href="/register" class="btn btn-warning btn-lg fw-bold text-dark px-4">
+                <i class="bi bi-person-plus"></i> Kayıt Ol
+            </a>
+        </div>
+    </div>
+
+    <!-- Scroll Down İşareti -->
+    <div class="scroll-down text-center position-absolute bottom-0 start-50 translate-middle-x mb-4">
+        <a href="#features" class="text-decoration-none text-white">
+            <span class="small d-block mb-1">Aşağı Kaydır</span>
+            <i class="bi bi-chevron-double-down fs-2"></i>
+        </a>
+    </div>
+</section>
+
+<!-- Özellikler Bölümü -->
+<section id="features" class="py-5 bg-light text-center">
+    <div class="container">
+        <h2 class="fw-bold mb-4">Öne Çıkan Özellikler</h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="p-4 shadow-sm rounded bg-white h-100">
+                    <i class="bi bi-speedometer2 text-primary display-5"></i>
+                    <h5 class="fw-bold mt-3">Hızlı İşlem</h5>
+                    <p>Kullanıcılar saniyeler içinde randevu oluşturabilir. İşletmeler kolayca onaylayabilir.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="p-4 shadow-sm rounded bg-white h-100">
+                    <i class="bi bi-people-fill text-success display-5"></i>
+                    <h5 class="fw-bold mt-3">Kolay Takip</h5>
+                    <p>Tüm randevularınızı tek ekranda görün. Bekleyen, iptal edilen, tamamlananları ayırın.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="p-4 shadow-sm rounded bg-white h-100">
+                    <i class="bi bi-shield-lock text-danger display-5"></i>
+                    <h5 class="fw-bold mt-3">Güvenli</h5>
+                    <p>Kişisel bilgileriniz en güvenli şekilde saklanır. Şifreleriniz korunur.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Nasıl Çalışır Bölümü -->
+<section class="py-5">
+    <div class="container text-center">
+        <h2 class="fw-bold mb-5">Nasıl Çalışır?</h2>
+        <div class="row g-4">
+            <div class="col-md-3">
+                <div class="p-3">
+                    <i class="bi bi-person-plus-fill display-5 text-primary"></i>
+                    <h6 class="fw-bold mt-2">1. Kayıt Ol</h6>
+                    <p class="small">Dakikalar içinde hesap açın.</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="p-3">
+                    <i class="bi bi-building display-5 text-success"></i>
+                    <h6 class="fw-bold mt-2">2. İşletme Ekle</h6>
+                    <p class="small">İşletme bilgilerinizi girin.</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="p-3">
+                    <i class="bi bi-calendar-event display-5 text-warning"></i>
+                    <h6 class="fw-bold mt-2">3. Randevu Oluştur</h6>
+                    <p class="small">Kullanıcılar kolayca randevu alır.</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="p-3">
+                    <i class="bi bi-graph-up display-5 text-danger"></i>
+                    <h6 class="fw-bold mt-2">4. Takip Et</h6>
+                    <p class="small">Raporlar ve istatistiklerle yönetin.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Avantajlar Bölümü -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <h2 class="fw-bold text-center mb-5">Avantajlar</h2>
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="card shadow-sm p-4 h-100">
+                    <h5 class="fw-bold"><i class="bi bi-person-check text-success me-2"></i>Kullanıcılar İçin</h5>
+                    <ul class="small mt-2">
+                        <li>Hızlı randevu alma</li>
+                        <li>Geçmiş randevu geçmişini görüntüleme</li>
+                        <li>İptal / Değişiklik yapabilme</li>
+                        <li>Bildirimlerle hatırlatma</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card shadow-sm p-4 h-100">
+                    <h5 class="fw-bold"><i class="bi bi-building text-primary me-2"></i>İşletmeler İçin</h5>
+                    <ul class="small mt-2">
+                        <li>Kolay müşteri yönetimi</li>
+                        <li>İptal / bekleyen randevu takibi</li>
+                        <li>Gelir ve istatistik raporları</li>
+                        <li>Online erişim imkanı</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SSS Bölümü -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold text-primary">❓ Sık Sorulan Sorular</h2>
+            <p class="text-muted">Aşağıda kullanıcılarımızdan en çok gelen soruların yanıtlarını bulabilirsiniz.</p>
+        </div>
+
+        <div class="accordion shadow-sm rounded" id="faqAccordion">
+
+            <!-- Soru 1 -->
+            <div class="accordion-item border-0 mb-3">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#q1">
+                        <i class="bi bi-person-plus me-2 text-primary"></i> Kullanıcı kaydı nasıl yapılır?
+                    </button>
+                </h2>
+                <div id="q1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Giriş yap sayfasındaki <b>Kayıt Ol</b> butonuna tıklayarak kolayca üye olabilirsiniz. 
+                        E-posta ve şifre bilgilerinizle giriş yapabilirsiniz.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Soru 2 -->
+            <div class="accordion-item border-0 mb-3">
+                <h2 class="accordion-header" id="headingTwo">
+                    <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#q2">
+                        <i class="bi bi-x-circle me-2 text-danger"></i> Randevu iptali mümkün mü?
+                    </button>
+                </h2>
+                <div id="q2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Evet ✅. Geçmiş tarihte olmayan tüm randevularınızı <b>iptal</b> edebilirsiniz. 
+                        İptal ettiğinizde işletmeye otomatik bildirim gönderilir.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Soru 3 -->
+            <div class="accordion-item border-0 mb-3">
+                <h2 class="accordion-header" id="headingThree">
+                    <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#q3">
+                        <i class="bi bi-shield-lock me-2 text-success"></i> Bilgilerim güvende mi?
+                    </button>
+                </h2>
+                <div id="q3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Kesinlikle 🔒. Tüm bilgileriniz şifrelenmiş şekilde saklanır. Şifreleriniz asla üçüncü kişilerle paylaşılmaz.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Soru 4 -->
+            <div class="accordion-item border-0 mb-3">
+                <h2 class="accordion-header" id="headingFour">
+                    <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#q4">
+                        <i class="bi bi-telephone me-2 text-warning"></i> Destek ekibine nasıl ulaşabilirim?
+                    </button>
+                </h2>
+                <div id="q4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Bizimle <a href="tel:5523027671"><b>5523027671</b></a> numarasından iletişime geçebilirsiniz.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- Footer -->
+<footer class="py-4 bg-dark text-white text-center">
+    <p class="mb-0">&copy; 2025 <a target="_blank" href="https://www.efesenol.com">Efe Şenol</a> | Tüm Hakları Saklıdır</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+document.querySelectorAll('.scroll-link').forEach(link => {
+    link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        const target = document.querySelector(targetId);
+
+        if (target) {
+            window.scrollTo({
+                top: target.offsetTop,
+                behavior: 'smooth'
+            });
+        }
+    });
+});
+
+// Smooth hızını artırmak için polyfill
+// Eğer tarayıcı destekliyorsa buradaki behavior: 'smooth' yeterli.
+// Daha yavaş yapmak için setInterval ile custom animation da yazabilirim.
+</script>

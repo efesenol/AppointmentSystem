@@ -22,7 +22,8 @@ public class HomeController : Controller
     public IActionResult Index(int id)
     {
         var userId = HttpContext.Session.GetInt32("Usersid");
-        if (userId == null) return RedirectToAction("Login", "Login");
+        if (userId == null) return RedirectToAction("LandingPage","Home" );
+        
         var appointment = _context.Appointments
         .Include(vm => vm.Users)
         .Include(vm => vm.Business)
@@ -324,6 +325,14 @@ public class HomeController : Controller
         .ToList();
         return View(appointment);
     }
+
+    [Route("tanitim")]
+    public IActionResult LandingPage()
+    {
+        
+        return View();
+    }
+
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {

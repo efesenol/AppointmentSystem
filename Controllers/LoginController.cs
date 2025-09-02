@@ -21,6 +21,8 @@ public class LoginController : Controller
     [Route("login")]
     public IActionResult Login()
     {
+        var userId = HttpContext.Session.GetInt32("Usersid");
+        if (userId != null) return RedirectToAction("Index", "Home");
         return View();
     }
 
@@ -86,17 +88,10 @@ public IActionResult Profile()
     var user = _context.Users.FirstOrDefault(u => u.Id == userId);
     if (user == null) return NotFound();
 
-    var totalAppointments = _context.Appointments
-        .Count(a => a.Id == userId);
-
-    var completed = _context.Appointments
-        .Count(a => a.Id == userId && a.Status == AppointmentStatus.Tamamlandı);
-
-    var pending = _context.Appointments
-        .Count(a => a.Id == userId && a.Status == AppointmentStatus.Bekliyor);
-
-    var cancelled = _context.Appointments
-        .Count(a => a.Id == userId && a.Status == AppointmentStatus.İptal);
+    // Kullanıcıya ait randevular
+    var userAppointments = _context.Appointments
+        .Where(a => a.UsersId == userId)
+        .ToList();
 
     var vm = new ProfileViewModel
     {
@@ -105,14 +100,17 @@ public IActionResult Profile()
         Phone = user.Phone,
         Email = user.Email,
         CreateTime = user.CreateTime,
-        TotalAppointments = totalAppointments,
-        Completed = completed,
-        Pending = pending,
-        Cancelled = cancelled
+
+        // Sayılar
+        TotalAppointments = userAppointments.Count,
+        Completed = userAppointments.Count(a => a.Status == AppointmentStatus.Tamamlandı),
+        Pending = userAppointments.Count(a => a.Status == AppointmentStatus.Bekliyor),
+        Cancelled = userAppointments.Count(a => a.Status == AppointmentStatus.İptal)
     };
 
     return View(vm);
 }
+
 
 
     [HttpPost]
