@@ -28,6 +28,7 @@ public class HomeController : Controller
         .Include(vm => vm.Users)
         .Include(vm => vm.Business)
         .Where(vm => vm.IsActive == true && vm.IsDelete == false && vm.UsersId == userId)
+        .OrderBy(vm => vm.AppointmentDate)
         .Select(vm => new UserAppointmentViewModel
         {
             AppointmentId = vm.Id,
