@@ -8,7 +8,9 @@ namespace AppointmentSystem.Entities
         public string? Address { get; set; }
         public string? Descrption { get; set; } 
         public string? ImgUrl { get; set; } 
-         
+
+        
+        public Users? Users { get; set; }
         
         public ICollection<Appointments>? Appointments { get; set; }
     }

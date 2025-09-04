@@ -86,9 +86,14 @@
                                     📌 Randevuya Git
                                 </a>
                             }
-                            else if(item.StatusText =="İptal" && item.StatusText =="tamamlandı") {
+                            else if(item.StatusText =="İptal" ) {
                                 <span class="btn btn-danger w-100 mb-2" disabled style="pointer-events:none;">
-                                    Geçmiş Randevu
+                                    İptal Edilmiş Randevu
+                                </span>
+                            }
+                             else if(item.StatusText =="Tamamlandı" ) {
+                                <span class="btn btn-danger w-100 mb-2" disabled style="pointer-events:none;">
+                                    Tamamlanan Randevu
                                 </span>
                             }
                             else {

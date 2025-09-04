@@ -80,99 +80,99 @@ public class LoginController : Controller
 
 
     [Route("profilim")]
-public IActionResult Profile()
-{
-    var userId = HttpContext.Session.GetInt32("Usersid");
-    if (userId == null) return RedirectToAction("Login", "Login");
-
-    var user = _context.Users.FirstOrDefault(u => u.Id == userId);
-    if (user == null) return NotFound();
-
-    // Kullanıcıya ait randevular
-    var userAppointments = _context.Appointments
-        .Where(a => a.UsersId == userId)
-        .ToList();
-
-    var vm = new ProfileViewModel
+    public IActionResult Profile()
     {
-        Id = user.Id,
-        UserName = user.FullName,
-        Phone = user.Phone,
-        Email = user.Email,
-        CreateTime = user.CreateTime,
+        var userId = HttpContext.Session.GetInt32("Usersid");
+        if (userId == null) return RedirectToAction("Login", "Login");
 
-        // Sayılar
-        TotalAppointments = userAppointments.Count,
-        Completed = userAppointments.Count(a => a.Status == AppointmentStatus.Tamamlandı),
-        Pending = userAppointments.Count(a => a.Status == AppointmentStatus.Bekliyor),
-        Cancelled = userAppointments.Count(a => a.Status == AppointmentStatus.İptal)
-    };
+        var user = _context.Users.FirstOrDefault(u => u.Id == userId);
+        if (user == null) return NotFound();
 
-    return View(vm);
-}
+        // Kullanıcıya ait randevular
+        var userAppointments = _context.Appointments
+            .Where(a => a.UsersId == userId)
+            .ToList();
+
+        var vm = new ProfileViewModel
+        {
+            Id = user.Id,
+            UserName = user.FullName,
+            Phone = user.Phone,
+            Email = user.Email,
+            CreateTime = user.CreateTime,
+
+            // Sayılar
+            TotalAppointments = userAppointments.Count,
+            Completed = userAppointments.Count(a => a.Status == AppointmentStatus.Tamamlandı),
+            Pending = userAppointments.Count(a => a.Status == AppointmentStatus.Bekliyor),
+            Cancelled = userAppointments.Count(a => a.Status == AppointmentStatus.İptal)
+        };
+
+        return View(vm);
+    }
 
 
 
     [HttpPost]
-[Route("profilim")]
-public IActionResult Profile(ProfileViewModel model)
-{
-    var userId = HttpContext.Session.GetInt32("Usersid");
-    if (userId == null) return RedirectToAction("Login", "Login");
-
-    var user = _context.Users.FirstOrDefault(u => u.Id == userId);
-    if (user == null) return NotFound();
-
-    bool changed = false;
-
-    // Telefon / Email güncelleme
-    if (user.Phone != model.Phone)
+    [Route("profilim")]
+    public IActionResult Profile(ProfileViewModel model)
     {
-        user.Phone = model.Phone;
-        changed = true;
-    }
-    if (user.Email != model.Email)
-    {
-        user.Email = model.Email;
-        changed = true;
-    }
+        var userId = HttpContext.Session.GetInt32("Usersid");
+        if (userId == null) return RedirectToAction("Login", "Login");
 
-    // Şifre güncelleme
-    if (!string.IsNullOrEmpty(model.CurrentPassword) ||
-        !string.IsNullOrEmpty(model.NewPassword) ||
-        !string.IsNullOrEmpty(model.ConfirmPassword))
-    {
-        if (model.NewPassword != model.ConfirmPassword)
-        {
-            TempData["ErrorMessage"] = "Yeni şifre ile şifre tekrarı aynı değil!";
-            return RedirectToAction("Profile");
-        }
+        var user = _context.Users.FirstOrDefault(u => u.Id == userId);
+        if (user == null) return NotFound();
 
-        if (user.Password != model.CurrentPassword)
-        {
-            TempData["ErrorMessage"] = "Mevcut şifrenizi yanlış girdiniz!";
-            return RedirectToAction("Profile");
-        }
+        bool changed = false;
 
-        if (!string.IsNullOrEmpty(model.NewPassword))
+        // Telefon / Email güncelleme
+        if (user.Phone != model.Phone)
         {
-            user.Password = model.NewPassword; // burada hash kullanman gerekir!
+            user.Phone = model.Phone;
             changed = true;
         }
-    }
+        if (user.Email != model.Email)
+        {
+            user.Email = model.Email;
+            changed = true;
+        }
 
-    if (!changed)
-    {
-        TempData["WarningMessage"] = "Hiçbir değişiklik yapılmadı.";
+        // Şifre güncelleme
+        if (!string.IsNullOrEmpty(model.CurrentPassword) ||
+            !string.IsNullOrEmpty(model.NewPassword) ||
+            !string.IsNullOrEmpty(model.ConfirmPassword))
+        {
+            if (model.NewPassword != model.ConfirmPassword)
+            {
+                TempData["ErrorMessage"] = "Yeni şifre ile şifre tekrarı aynı değil!";
+                return RedirectToAction("Profile");
+            }
+
+            if (user.Password != model.CurrentPassword)
+            {
+                TempData["ErrorMessage"] = "Mevcut şifrenizi yanlış girdiniz!";
+                return RedirectToAction("Profile");
+            }
+
+            if (!string.IsNullOrEmpty(model.NewPassword))
+            {
+                user.Password = model.NewPassword; // burada hash kullanman gerekir!
+                changed = true;
+            }
+        }
+
+        if (!changed)
+        {
+            TempData["WarningMessage"] = "Hiçbir değişiklik yapılmadı.";
+            return RedirectToAction("Profile");
+        }
+
+        user.CreateTime = DateTime.Now;
+        _context.SaveChanges();
+
+        TempData["SuccessMessage"] = "Profiliniz başarıyla güncellendi.";
         return RedirectToAction("Profile");
     }
-
-    user.CreateTime = DateTime.Now;
-    _context.SaveChanges();
-
-    TempData["SuccessMessage"] = "Profiliniz başarıyla güncellendi.";
-    return RedirectToAction("Profile");
-}
 
 
 

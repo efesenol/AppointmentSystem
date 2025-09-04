@@ -334,6 +334,30 @@ public class HomeController : Controller
         return View();
     }
 
+    [Route("isletmelerim")]
+    public IActionResult MyBusiness()
+    {
+        var userId = HttpContext.Session.GetInt32("Usersid");
+
+        if (userId == null) return RedirectToAction("LandingPage", "Home");
+        
+        
+            var businesses = _context.Business
+            .Where(a => a.IsActive == true && a.IsDelete == false && userId == a.Users!.Id)
+            .Select(a => new BusinessViewModel
+            {
+                BusinessAdress = a.Address,
+                BusinessName = a.Name,
+                BusinessId = a.Id,
+                BusinessDescrption = a.Descrption,
+                BusinessImg = a.ImgUrl
+            })
+            .ToList();
+
+            return View(businesses);
+        
+    }
+
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
