@@ -357,6 +357,29 @@ public class HomeController : Controller
             return View(businesses);
         
     }
+    [Route("isletme-bilgisi/{id}")]
+    public IActionResult MyBusinessDetail(int id)
+    {
+        var userId = HttpContext.Session.GetInt32("Usersid");
+
+        if (userId == null) return RedirectToAction("LandingPage", "Home");
+        
+        
+            var businesses = _context.Business
+            .Where(a => a.IsActive == true && a.IsDelete == false && userId == a.Users!.Id)
+            .Select(a => new EditBusinessViewModel
+            {
+                Address = a.Address,
+                Name = a.Name,
+                Id = a.Id,
+                Description = a.Descrption,
+                ImgUrl = a.ImgUrl
+            })
+            .FirstOrDefault();
+
+            return View(businesses);
+        
+    }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()

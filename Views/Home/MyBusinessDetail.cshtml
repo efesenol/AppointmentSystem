@@ -1,0 +1,105 @@
+@model EditBusinessViewModel
+@{
+    ViewData["Title"] = "İşletme Güncelle";
+}
+
+<form asp-action="Edit" asp-controller="Business" method="post" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+    <!-- Eski görseli korumak için -->
+    <input type="hidden" asp-for="ImgUrl" />
+
+    <div class="row g-4">
+        <div class="col-md-6">
+            <label asp-for="Name" class="form-label fw-semibold">
+                <i class="bi bi-info-circle text-primary"></i> İşletme Adı
+            </label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6">
+            <label asp-for="Address" class="form-label fw-semibold">
+                <i class="bi bi-geo-alt text-primary"></i> İşletme Adresi
+            </label>
+            <input asp-for="Address" class="form-control" />
+            <span asp-validation-for="Address" class="text-danger"></span>
+        </div>
+
+        <div class="col-12">
+            <label class="form-label fw-semibold">
+                <i class="bi bi-image text-primary"></i> Mevcut Görsel
+            </label>
+            <div>
+                <img id="currentPreview"
+                     src="~/uploads/business/@(string.IsNullOrWhiteSpace(Model.ImgUrl) ? "placeholder.jpg" : Model.ImgUrl)"
+                     class="img-fluid rounded border"
+                     style="max-width:420px"
+                     alt="Mevcut işletme görseli"
+                     asp-append-version="true" />
+            </div>
+            <small class="text-muted d-block mt-1">Yeni bir görsel seçmezsen mevcut görsel korunur.</small>
+        </div>
+
+        <div class="col-12">
+            <label asp-for="ImgFile" class="form-label fw-semibold">
+                <i class="bi bi-upload text-primary"></i> Yeni Görsel Yükle (opsiyonel)
+            </label>
+            <input asp-for="ImgFile" type="file" accept="image/*" class="form-control" id="imgInput" />
+            <span asp-validation-for="ImgFile" class="text-danger"></span>
+
+            <!-- Canlı önizleme -->
+            <div id="newPreviewWrap" class="mt-2 d-none">
+                <div class="mb-2 fw-semibold">Yeni Önizleme</div>
+                <img id="newPreview" class="img-fluid rounded border" style="max-width:420px" alt="Yeni görsel önizleme" />
+                <button type="button" class="btn btn-sm btn-outline-secondary mt-2" id="clearNewImage">
+                    Seçimi Temizle
+                </button>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <label asp-for="Description" class="form-label fw-semibold">
+                <i class="bi bi-pencil text-primary"></i> İşletme Açıklaması
+            </label>
+            <textarea asp-for="Description" rows="4" class="form-control"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <div class="col-12 d-flex justify-content-end gap-2">
+            <a asp-action="Index" class="btn btn-outline-secondary"><i class="bi bi-x-circle"></i> Vazgeç</a>
+            <button type="submit" class="btn btn-primary"><i class="bi bi-check2-circle"></i> Kaydet</button>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        const input = document.getElementById('imgInput');
+        const newPreviewWrap = document.getElementById('newPreviewWrap');
+        const newPreview = document.getElementById('newPreview');
+        const clearBtn = document.getElementById('clearNewImage');
+
+        input.addEventListener('change', (e) => {
+            const file = e.target.files?.[0];
+            if (!file) {
+                newPreviewWrap.classList.add('d-none');
+                newPreview.src = '';
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                newPreview.src = ev.target.result;
+                newPreviewWrap.classList.remove('d-none');
+            };
+            reader.readAsDataURL(file);
+        });
+
+        clearBtn.addEventListener('click', () => {
+            input.value = '';
+            newPreview.src = '';
+            newPreviewWrap.classList.add('d-none');
+        });
+    </script>
+}
