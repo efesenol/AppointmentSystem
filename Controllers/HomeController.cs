@@ -22,8 +22,8 @@ public class HomeController : Controller
     public IActionResult Index(int id)
     {
         var userId = HttpContext.Session.GetInt32("Usersid");
-        if (userId == null) return RedirectToAction("LandingPage","Home" );
-        
+        if (userId == null) return RedirectToAction("LandingPage", "Home");
+
         var appointment = _context.Appointments
         .Include(vm => vm.Users)
         .Include(vm => vm.Business)
@@ -286,7 +286,7 @@ public class HomeController : Controller
         var appointment = _context.Appointments
         .Include(vm => vm.Users)
         .Include(vm => vm.Business)
-        .Where(vm => vm.IsActive == true && vm.IsDelete == false && vm.UsersId == userId && vm.AppointmentDate >= DateTime.Now  )
+        .Where(vm => vm.IsActive == true && vm.IsDelete == false && vm.UsersId == userId && vm.AppointmentDate >= DateTime.Now)
         .Select(vm => new UserAppointmentViewModel
         {
             AppointmentId = vm.Id,
@@ -330,7 +330,7 @@ public class HomeController : Controller
     [Route("tanitim")]
     public IActionResult LandingPage()
     {
-        
+
         return View();
     }
 
@@ -340,22 +340,22 @@ public class HomeController : Controller
         var userId = HttpContext.Session.GetInt32("Usersid");
 
         if (userId == null) return RedirectToAction("LandingPage", "Home");
-        
-        
-            var businesses = _context.Business
-            .Where(a => a.IsActive == true && a.IsDelete == false && userId == a.Users!.Id)
-            .Select(a => new BusinessViewModel
-            {
-                BusinessAdress = a.Address,
-                BusinessName = a.Name,
-                BusinessId = a.Id,
-                BusinessDescrption = a.Descrption,
-                BusinessImg = a.ImgUrl
-            })
-            .ToList();
 
-            return View(businesses);
-        
+
+        var businesses = _context.Business
+        .Where(a => a.IsActive == true && a.IsDelete == false && userId == a.Users!.Id)
+        .Select(a => new BusinessViewModel
+        {
+            BusinessAdress = a.Address,
+            BusinessName = a.Name,
+            BusinessId = a.Id,
+            BusinessDescrption = a.Descrption,
+            BusinessImg = a.ImgUrl
+        })
+        .ToList();
+
+        return View(businesses);
+
     }
     [Route("isletme-bilgisi/{id}")]
     public IActionResult MyBusinessDetail(int id)
@@ -363,23 +363,76 @@ public class HomeController : Controller
         var userId = HttpContext.Session.GetInt32("Usersid");
 
         if (userId == null) return RedirectToAction("LandingPage", "Home");
-        
-        
-            var businesses = _context.Business
-            .Where(a => a.IsActive == true && a.IsDelete == false && userId == a.Users!.Id)
-            .Select(a => new EditBusinessViewModel
+
+
+        var businesses = _context.Business
+        .Where(a => a.IsActive == true && a.IsDelete == false && userId == a.Users!.Id)
+        .Select(a => new EditBusinessViewModel
+        {
+            Address = a.Address,
+            Name = a.Name,
+            Id = a.Id,
+            Description = a.Descrption,
+            ImgUrl = a.ImgUrl
+        })
+        .FirstOrDefault();
+
+        return View(businesses);
+
+    }
+
+    [Route("isletme-randevular/{id}")]
+    public IActionResult MyBusinessAppointment(int id)
+    {
+        var userId = HttpContext.Session.GetInt32("Usersid");
+        if (userId == null) return RedirectToAction("LandingPage", "Home");
+
+        var appointments = _context.Appointments
+            .Include(a => a.Users)
+            .Include(a => a.Business)
+            .Where(a => a.BusinessId == id && a.IsActive && !a.IsDelete)
+            .Select(a => new AppointmentBusinessViewModel
             {
-                Address = a.Address,
-                Name = a.Name,
-                Id = a.Id,
-                Description = a.Descrption,
-                ImgUrl = a.ImgUrl
+                AppointmentId = a.Id,
+                CustomerName = a.Users != null ? a.Users.FullName : "Bilinmiyor",
+                AppointmentDate = a.AppointmentDate,
+                Note = a.Note,
+                Status = a.Status.ToString(),
+                BusinessName = a.Business != null ? a.Business.Name : ""
+            })
+            .OrderBy(a => a.AppointmentDate)
+            .ToList();
+
+        return View(appointments);
+    }
+    [Route("randevu-detay/{id}")]
+    public IActionResult AppointmentDetail(int id)
+    {
+        var appointment = _context.Appointments
+            .Include(a => a.Users)
+            .Include(a => a.Business)
+            .Where(a => a.Id == id && a.IsActive && !a.IsDelete)
+            .Select(a => new AppointmentDetailViewModel
+            {
+                BusinessId = a.Business!.Id,
+                AppointmentId = a.Id,
+                CustomerName = a.Users != null ? a.Users.FullName : "Bilinmiyor",
+                CustomerEmail = a.Users != null ? a.Users.Email : "",
+                CustomerPhone = a.Users != null ? a.Users.Phone : "",
+                BusinessName = a.Business != null ? a.Business.Name : "",
+                BusinessAddress = a.Business != null ? a.Business.Address : "",
+                AppointmentDate = a.AppointmentDate,
+                Note = a.Note,
+                Status = a.Status
             })
             .FirstOrDefault();
 
-            return View(businesses);
-        
+        if (appointment == null)
+            return NotFound();
+
+        return View(appointment);
     }
+
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()

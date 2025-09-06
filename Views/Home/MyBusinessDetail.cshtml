@@ -3,7 +3,7 @@
     ViewData["Title"] = "İşletme Güncelle";
 }
 
-<form asp-action="Edit" asp-controller="Business" method="post" enctype="multipart/form-data">
+<form class="mt-5" asp-action="Edit" asp-controller="Business" method="post" enctype="multipart/form-data">
     @Html.AntiForgeryToken()
     <input type="hidden" asp-for="Id" />
     <!-- Eski görseli korumak için -->

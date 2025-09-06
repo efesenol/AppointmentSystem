@@ -80,17 +80,28 @@
                         </div>
 
                         <!-- Aksiyonlar -->
-                        <div class="mt-auto">
-                            @if(item.AppointmentDate > DateTime.Now) {
+                       <div class="mt-auto">
+                            @if(item.AppointmentDate > DateTime.Now && item.StatusText == "Bekliyor") {
                                 <a href="/Edit/@item.AppointmentId" class="btn btn-outline-primary w-100 mb-2">
                                     📌 Randevuya Git
                                 </a>
-                            } else {
+                            }
+                            else if(item.StatusText =="İptal" ) {
+                                <span class="btn btn-danger w-100 mb-2" disabled style="pointer-events:none;">
+                                    İptal Edilmiş Randevu
+                                </span>
+                            }
+                             else if(item.StatusText =="Tamamlandı" ) {
+                                <span class="btn btn-danger w-100 mb-2" disabled style="pointer-events:none;">
+                                    Tamamlanan Randevu
+                                </span>
+                            }
+                            else {
                                 <span class="btn btn-danger w-100 mb-2" disabled style="pointer-events:none;">
                                     Geçmiş Randevu
                                 </span>
                             }
-
+                           
                             <button type="button" class="btn btn-sm btn-outline-danger w-100 btn-delete" data-id="@item.AppointmentId">
                                 <i class="bi bi-trash me-1"></i> Sil
                             </button>

@@ -1,0 +1,72 @@
+@using AppointmentSystem.Entities
+@model AppointmentDetailViewModel
+
+<div class="container mt-5">
+    <div class="card shadow-lg border-0">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">
+                <i class="bi bi-calendar-event me-2"></i> Randevu Detayı
+            </h4>
+        </div>
+        <div class="card-body">
+            
+            <!-- Müşteri Bilgileri -->
+            <h5 class="fw-bold text-secondary mb-3">
+                <i class="bi bi-person-circle me-2"></i>Müşteri Bilgileri
+            </h5>
+            <ul class="list-group mb-4">
+                <li class="list-group-item"><strong>Ad Soyad:</strong> @Model.CustomerName</li>
+                <li class="list-group-item"><strong>Email:</strong> @Model.CustomerEmail</li>
+                <li class="list-group-item"><strong>Telefon:</strong> @Model.CustomerPhone</li>
+            </ul>
+
+            <!-- İşletme Bilgileri -->
+            <h5 class="fw-bold text-secondary mb-3">
+                <i class="bi bi-building me-2"></i>İşletme Bilgileri
+            </h5>
+            <ul class="list-group mb-4">
+                <li class="list-group-item"><strong>İşletme Adı:</strong> @Model.BusinessName</li>
+                <li class="list-group-item"><strong>Adres:</strong> @Model.BusinessAddress</li>
+            </ul>
+
+            <!-- Randevu Bilgileri -->
+            <h5 class="fw-bold text-secondary mb-3">
+                <i class="bi bi-info-circle me-2"></i>Randevu Bilgileri
+            </h5>
+            <ul class="list-group mb-4">
+                <li class="list-group-item"><strong>Tarih:</strong> @Model.AppointmentDate.ToString("dd.MM.yyyy HH:mm")</li>
+                <li class="list-group-item"><strong>Not:</strong> @Model.Note</li>
+                <li class="list-group-item"><strong>Durum:</strong>
+                    @switch(Model.Status)
+                    {
+                        case AppointmentStatus.Tamamlandı:
+                            <span class="badge bg-success"><i class="bi bi-check-circle"></i> Tamamlandı</span>
+                            break;
+                        case AppointmentStatus.İptal:
+                            <span class="badge bg-danger"><i class="bi bi-x-circle"></i> İptal</span>
+                            break;
+                        default:
+                            <span class="badge bg-warning text-dark"><i class="bi bi-hourglass-split"></i> Bekliyor</span>
+                            break;
+                    }
+                </li>
+            </ul>
+
+            <!-- İşlemler -->
+            <div class="d-flex gap-2">
+                <a href="/randevu-onayla/@Model.AppointmentId" class="btn btn-success">
+                    <i class="bi bi-check-lg"></i> Onayla
+                </a>
+                <a href="/randevu-iptal/@Model.AppointmentId" class="btn btn-warning text-dark">
+                    <i class="bi bi-x-lg"></i> İptal Et
+                </a>
+                <a href="/randevu-sil/@Model.AppointmentId" class="btn btn-danger">
+                    <i class="bi bi-trash"></i> Sil
+                </a>
+                <a href="/isletme-randevular/@Model.BusinessId" class="btn btn-outline-secondary ms-auto">
+                    <i class="bi bi-arrow-left"></i> Geri Dön
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
