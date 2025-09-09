@@ -5,6 +5,7 @@ using AppointmentSystem.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using AppointmentSystem.Entities;
+using Microsoft.Identity.Client;
 
 namespace AppointmentSystem.Controllers;
 
@@ -93,14 +94,12 @@ public class HomeController : Controller
             return View(model);
         }
         var appointment = _context.Appointments.Find(model.AppointmentId);
-
         if (appointment == null) return NotFound();
 
         appointment.AppointmentDate = model.AppointmentDate;
         appointment.BusinessId = model.BusinessId;
         appointment.Status = model.Status;
         appointment.Note = model.AppointmentNote;
-
 
         _context.SaveChanges();
         return RedirectToAction("Index");
@@ -116,6 +115,7 @@ public class HomeController : Controller
         _context.SaveChanges();
         return RedirectToAction("Index");
     }
+
     [Route("yeni-randevu")]
     public IActionResult NewAppointment()
     {
@@ -145,7 +145,6 @@ public class HomeController : Controller
 
         return View(vm);
     }
-
 
     [HttpPost]
     [Route("yeni-randevu")]
@@ -180,10 +179,8 @@ public class HomeController : Controller
             IsActive = true,
             IsDelete = false
         };
-
         _context.Appointments.Add(appointment);
         _context.SaveChanges();
-
         return RedirectToAction("Index");
     }
 
@@ -207,7 +204,6 @@ public class HomeController : Controller
             BusinessImg = a.ImgUrl
         })
         .ToList();
-
         return View(businesses);
     }
     [Route("randevu-al/{id}")]
@@ -227,14 +223,12 @@ public class HomeController : Controller
 
         var vm = new NewAppointmentViewModel
         {
-
             UserName = user?.FullName,
             AppointmentDate = DateTime.Now,
             BusinessId = businesses!.Id,
             BusinessName = businesses.Name,
             CreateTime = DateTime.Now,
         };
-
         return View(vm);
     }
 
@@ -283,6 +277,7 @@ public class HomeController : Controller
     {
         var userId = HttpContext.Session.GetInt32("Usersid");
         if (userId == null) return RedirectToAction("Login", "Login");
+
         var appointment = _context.Appointments
         .Include(vm => vm.Users)
         .Include(vm => vm.Business)
@@ -307,6 +302,7 @@ public class HomeController : Controller
     {
         var userId = HttpContext.Session.GetInt32("Usersid");
         if (userId == null) return RedirectToAction("Login", "Login");
+
         var appointment = _context.Appointments
         .Include(vm => vm.Users)
         .Include(vm => vm.Business)
@@ -338,9 +334,7 @@ public class HomeController : Controller
     public IActionResult MyBusiness()
     {
         var userId = HttpContext.Session.GetInt32("Usersid");
-
         if (userId == null) return RedirectToAction("LandingPage", "Home");
-
 
         var businesses = _context.Business
         .Where(a => a.IsActive == true && a.IsDelete == false && userId == a.Users!.Id)
@@ -353,7 +347,6 @@ public class HomeController : Controller
             BusinessImg = a.ImgUrl
         })
         .ToList();
-
         return View(businesses);
 
     }
@@ -361,9 +354,7 @@ public class HomeController : Controller
     public IActionResult MyBusinessDetail(int id)
     {
         var userId = HttpContext.Session.GetInt32("Usersid");
-
         if (userId == null) return RedirectToAction("LandingPage", "Home");
-
 
         var businesses = _context.Business
         .Where(a => a.IsActive == true && a.IsDelete == false && userId == a.Users!.Id)
@@ -376,7 +367,6 @@ public class HomeController : Controller
             ImgUrl = a.ImgUrl
         })
         .FirstOrDefault();
-
         return View(businesses);
 
     }
@@ -433,6 +423,109 @@ public class HomeController : Controller
         return View(appointment);
     }
 
+    [Route("yeni-basvuru")]
+    public IActionResult ApplicationBusiness()
+    {
+        var userId = HttpContext.Session.GetInt32("Usersid");
+        if (userId == null) return RedirectToAction("LandingPage", "Home");
+
+
+        return View();
+    }
+
+    [HttpPost]
+    [Route("yeni-basvuru")]
+    public IActionResult ApplicationBusiness(BusinessApplicationViewModel model)
+    {
+        var userId = HttpContext.Session.GetInt32("Usersid");
+        if (userId == null) return RedirectToAction("Login", "Login");
+
+        if (!ModelState.IsValid)
+        {
+            return View(model);
+        }
+
+        string? filePath = null;
+        if (model.ImgFile != null)
+        {
+            var fileName = Guid.NewGuid() + Path.GetExtension(model.ImgFile.FileName);
+            var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads/business");
+
+            if (!Directory.Exists(uploadPath))
+                Directory.CreateDirectory(uploadPath);
+
+            var fullPath = Path.Combine(uploadPath, fileName);
+
+            using (var stream = new FileStream(fullPath, FileMode.Create))
+            {
+                model.ImgFile.CopyTo(stream);
+            }
+
+            filePath = "/uploads/business/" + fileName;
+        }
+
+        var application = new BusinessApplication
+        {
+            UsersId = userId.Value,
+            BusinessName = model.BusinessName ?? "",
+            Address = model.Address ?? "",
+            Description = model.Description,
+            ImgUrl = filePath,
+            Status = ApplicationStatus.Bekliyor,
+            IsActive = true,
+            IsDelete = false,
+            CreateTime = DateTime.Now
+        };
+
+        _context.BusinessApplication.Add(application);
+        _context.SaveChanges();
+
+        TempData["SuccessMessage"] = "Başvurunuz başarıyla gönderildi!";
+        return RedirectToAction("MyBusiness");
+    }
+    
+    [Route("basvurular")]
+    public IActionResult Applications()
+    {
+        var userId = HttpContext.Session.GetInt32("Usersid");
+        if (userId == null) return RedirectToAction("Login", "Login");
+
+        var application = _context.BusinessApplication.Where(a => a.IsActive == true).ToList();
+        return View(application);
+    }
+    [HttpPost]
+    [Route("basvuru-onayla/{id}")]
+    public IActionResult ApproveApplication(int id)
+    {
+        var application = _context.BusinessApplication.FirstOrDefault(a => a.Id == id);
+        if (application == null) return NotFound();
+
+        // Status güncelle
+        application.Status = ApplicationStatus.Tamamlandı;
+        _context.BusinessApplication.Update(application);
+        _context.SaveChanges();
+
+        var business = new Business
+        {
+            UsersId = application.UsersId,
+            Name = application.BusinessName,
+            Address = application.Address,
+            Descrption = application.Description,
+            ImgUrl = application.ImgUrl,
+            IsActive = true,
+            IsDelete = false,
+            CreateTime = DateTime.Now
+        };
+
+        _context.Business.Add(business);
+
+        _context.BusinessApplication.Remove(application);
+
+        _context.SaveChanges();
+
+        TempData["SuccessMessage"] = "Başvuru onaylandı, işletme kaydedildi.";
+        return RedirectToAction("Applications"); // Admin başvuru listesine dön
+    }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()

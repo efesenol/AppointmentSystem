@@ -9,7 +9,7 @@ namespace AppointmentSystem.Entities
         public string? Descrption { get; set; } 
         public string? ImgUrl { get; set; } 
 
-        
+        public int UsersId { get; set; }
         public Users? Users { get; set; }
         
         public ICollection<Appointments>? Appointments { get; set; }

@@ -1,0 +1,98 @@
+@model List<AppointmentSystem.Entities.BusinessApplication>
+
+<div class="container mt-5">
+    <h3 class="fw-bold text-primary mb-4">
+        <i class="bi bi-ui-checks me-2"></i> İşletme Başvuruları
+    </h3>
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-info text-center p-4">
+            <i class="bi bi-inbox me-2"></i> Bekleyen başvuru bulunmamaktadır.
+        </div>
+    }
+    else
+    {
+        <div class="card shadow-sm">
+            <div class="card-body p-0">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>#</th>
+                            <th>İşletme Adı</th>
+                            <th>Adres</th>
+                            <th>Açıklama</th>
+                            <th>Başvuru Sahibi</th>
+                            <th>Tarih</th>
+                            <th class="text-center">Durum</th>
+                            <th class="text-center">İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.Count; i++)
+                        {
+                            var item = Model[i];
+                            <tr>
+                                <td>@(i + 1)</td>
+                                <td>
+                                    <strong>@item.BusinessName</strong>
+                                </td>
+                                <td>@item.Address</td>
+                                <td>@item.Description</td>
+                                <td>
+                                    @item.Users?.FullName <br />
+                                    <small class="text-muted">@item.Users?.Email</small>
+                                </td>
+                                <td>@item.CreateTime.ToString("dd.MM.yyyy HH:mm")</td>
+                                <td class="text-center">
+                                    @if (item.Status == AppointmentSystem.Entities.ApplicationStatus.Bekliyor)
+                                    {
+                                        <span class="badge bg-warning text-dark">Bekliyor</span>
+                                    }
+                                    else if (item.Status == AppointmentSystem.Entities.ApplicationStatus.Tamamlandı)
+                                    {
+                                        <span class="badge bg-success">Tamamlandı</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger">İptal</span>
+                                    }
+                                </td>
+                                <td class="text-center">
+                                    <form asp-action="ApproveApplication" asp-route-id="@item.Id" method="post" class="d-inline">
+                                        <button type="submit" class="btn btn-sm btn-success"
+                                                onclick="return confirm('Bu başvuruyu onaylamak istediğinize emin misiniz?');">
+                                            <i class="bi bi-check-circle"></i> Onayla
+                                        </button>
+                                    </form>
+                                    <a href="/basvuru-detay/@item.Id" class="btn btn-sm btn-outline-primary ms-1">
+                                        <i class="bi bi-eye"></i> Detay
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        @if (TempData["SuccessMessage"] != null)
+        {
+            var msg = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(TempData["SuccessMessage"]));
+            <text>
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Başarılı!',
+                    text: msg,
+                    confirmButtonText: 'Tamam',
+                    confirmButtonColor: '#3085d6'
+                });
+            </text>
+        }
+    </script>
+}

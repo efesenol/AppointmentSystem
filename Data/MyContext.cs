@@ -12,6 +12,7 @@ namespace AppointmentSystem.Data
         public DbSet<Users> Users { get; set; }
         public DbSet<Business> Business { get; set; }
         public DbSet<Appointments> Appointments { get; set; }
+        public DbSet<BusinessApplication> BusinessApplication { get; set; }
         
        
     }

@@ -1,0 +1,93 @@
+@model BusinessApplicationViewModel
+
+@{
+    ViewData["Title"] = "Yeni İşletme Başvurusu";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">
+                        <i class="bi bi-building-add me-2"></i> Yeni İşletme Başvurusu
+                    </h4>
+                </div>
+                <div class="card-body p-4">
+
+                    <form asp-action="ApplicationBusiness" method="post" enctype="multipart/form-data" id="applicationForm">
+                        <!-- İşletme Adı -->
+                        <div class="mb-3">
+                            <label asp-for="BusinessName" class="form-label fw-bold">İşletme Adı</label>
+                            <input asp-for="BusinessName" class="form-control" placeholder="Örn: Klinik ABC" />
+                            <span asp-validation-for="BusinessName" class="text-danger"></span>
+                        </div>
+
+                        <!-- Adres -->
+                        <div class="mb-3">
+                            <label asp-for="Address" class="form-label fw-bold">İşletme Adresi</label>
+                            <input asp-for="Address" class="form-control" placeholder="Örn: Ankara" />
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                        </div>
+
+                        <!-- Açıklama -->
+                        <div class="mb-3">
+                            <label asp-for="Description" class="form-label fw-bold">Açıklama</label>
+                            <textarea asp-for="Description" class="form-control" rows="4" placeholder="İşletmeniz hakkında kısa bilgi yazınız..."></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+
+                        <!-- Görsel -->
+                        <div class="mb-3">
+                            <label asp-for="ImgFile" class="form-label fw-bold">İşletme Görseli</label>
+                            <input asp-for="ImgFile" type="file" class="form-control" />
+                            <span asp-validation-for="ImgFile" class="text-danger"></span>
+                        </div>
+
+                        
+
+                        <!-- Butonlar -->
+                        <div class="d-flex justify-content-between">
+                            <a asp-action="MyBusiness" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left"></i> Geri Dön
+                            </a>
+                            <button type="submit" class="btn btn-success">
+                                <i class="bi bi-send"></i> Başvuruyu Gönder
+                            </button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+$("#applicationForm").submit(function (e) {
+    e.preventDefault();
+    var formData = new FormData(this);
+
+    $.ajax({
+        url: '/yeni-basvuru',
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (res) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Başarılı!',
+                text: 'Başvurunuz başarıyla gönderildi!',
+                confirmButtonText: 'Tamam'
+            }).then(() => {
+                window.location.href = "/isletmelerim"; // popup kapandıktan sonra yönlendir
+            });
+        },
+        error: function () {
+            Swal.fire("Hata", "Bir sorun oluştu, lütfen tekrar deneyin.", "error");
+        }
+    });
+});
+</script>
