@@ -174,7 +174,15 @@ public class LoginController : Controller
         return RedirectToAction("Profile");
     }
 
+[Route("cikis")]
+public IActionResult Logout()
+{
+    // Session temizle
+    HttpContext.Session.Clear();
 
+    // Login sayfasına yönlendir
+    return RedirectToAction("Login", "Login");
+}
 
 
 }

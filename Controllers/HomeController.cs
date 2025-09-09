@@ -286,7 +286,7 @@ public class HomeController : Controller
         var appointment = _context.Appointments
         .Include(vm => vm.Users)
         .Include(vm => vm.Business)
-        .Where(vm => vm.IsActive == true && vm.IsDelete == false && vm.UsersId == userId && vm.AppointmentDate >= DateTime.Now)
+        .Where(vm => vm.IsActive == true && vm.IsDelete == false && vm.UsersId == userId && vm.AppointmentDate >= DateTime.Now && vm.Status == AppointmentStatus.Bekliyor)
         .Select(vm => new UserAppointmentViewModel
         {
             AppointmentId = vm.Id,
