@@ -13,8 +13,26 @@ namespace AppointmentSystem.Data
         public DbSet<Business> Business { get; set; }
         public DbSet<Appointments> Appointments { get; set; }
         public DbSet<BusinessApplication> BusinessApplication { get; set; }
-        
-       
-    }
 
+
+   
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        
+        modelBuilder.Entity<Appointments>()
+            .HasOne(a => a.Users)
+            .WithMany()
+            .HasForeignKey(a => a.UsersId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+       
+        modelBuilder.Entity<Appointments>()
+            .HasOne(a => a.Business)
+            .WithMany()
+            .HasForeignKey(a => a.BusinessId)
+            .OnDelete(DeleteBehavior.Restrict);
+    }
+ }
 }

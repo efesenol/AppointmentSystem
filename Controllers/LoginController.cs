@@ -84,6 +84,7 @@ public class LoginController : Controller
     {
         var userId = HttpContext.Session.GetInt32("Usersid");
         if (userId == null) return RedirectToAction("Login", "Login");
+        ViewBag.UserId = userId;
 
         var user = _context.Users.FirstOrDefault(u => u.Id == userId);
         if (user == null) return NotFound();
@@ -110,8 +111,6 @@ public class LoginController : Controller
 
         return View(vm);
     }
-
-
 
     [HttpPost]
     [Route("profilim")]
@@ -174,15 +173,43 @@ public class LoginController : Controller
         return RedirectToAction("Profile");
     }
 
-[Route("cikis")]
-public IActionResult Logout()
-{
-    // Session temizle
-    HttpContext.Session.Clear();
+    [Route("cikis")]
+    public IActionResult Logout()
+    {
+        // Session temizle
+        HttpContext.Session.Clear();
 
-    // Login sayfasına yönlendir
-    return RedirectToAction("Login", "Login");
-}
+        // Login sayfasına yönlendir
+        return RedirectToAction("Login", "Login");
+    }
+    [Route("kayit-ol")]
+    public IActionResult Register()
+    {
 
+        return View();
+    }
 
+    [HttpPost]
+    [Route("kayit-ol")]
+    public IActionResult Register(RegisterViewModel model)
+    {
+
+        var user = new Users
+        {
+            FullName = model.FullName,
+            Email = model.Email,
+            Phone = model.Phone,
+            Password = model.Password,
+            Role = "user",
+            IsActive = true,
+            IsDelete = false,
+            CreateTime = DateTime.Now
+        };
+
+        _context.Users.Add(user);
+        _context.SaveChanges();
+
+        TempData["SuccessMessage"] = "Başvurunuz başarıyla gönderildi!";
+        return RedirectToAction("Login");
+    }
 }

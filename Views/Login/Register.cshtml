@@ -1,6 +1,8 @@
 @{
     Layout = "";
+    
 }
+@model RegisterViewModel
 <link id="googleFonts"
     href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800%7CShadows+Into+Light&display=swap"
     rel="stylesheet" type="text/css">
@@ -40,39 +42,37 @@
         <!-- Sol taraf: Login kutusu -->
         <div class="col-md-6 d-flex align-items-center justify-content-center bg-white">
             <div class="w-75">
-                <h3 class="fw-bold mb-3">GİRİŞ YAP</h3>
-                <p class="text-muted">Sisteme kayıt olduğunuz e-posta adresi ve parola ile giriş yapabilirsiniz. 🙂</p>
+                <h3 class="fw-bold mb-3">KAYIT OL</h3>
+                <p class="text-muted">Sisteme kayıt olarak dilediğiniz işletmeden randevu alabilirsiniz. 🙂</p>
 
-                <!-- Sadece input görünümleri -->
-                <div class="mb-3">
-                    <label class="form-label">E-posta Adresi</label>
-
-                    <input name="email" type="text" value="" class="form-control" required="" id="loginEmail"
-                        placeholder="ornek@mail.com">
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Şifre</label>
-                    <input name="password" type="password" value="" class="form-control" required="" id="loginPassword"
-                        placeholder="••••••">
-                </div>
-
-                <!-- Checkbox & Link -->
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <div class="form-check">
-
-                        <input type="checkbox" class="form-check-input" id="rememberMe">
-                        <label class="form-check-label" for="rememberMe">Oturumum açık kalsın</label>
-
+                <form asp-action="Register" method="post">
+                    <div class="mb-3">
+                        <label class="form-label">Ad Soyad</label>
+                        <input asp-for="FullName" class="form-control" placeholder="Efe Şenol" />
+                        <span asp-validation-for="FullName" class="text-danger"></span>
                     </div>
-                    <a onclick="btn_forgotPassword()" class=" text-decoration-none text-primary cur-pointer">Şifremi
-                        unuttum</a>
-                </div>
 
-                <!-- Butonlar -->
+                    <div class="mb-3">
+                        <label class="form-label">E-posta Adresi</label>
+                        <input asp-for="Email" class="form-control" placeholder="ornek@mail.com" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
 
-                <input onclick="btn_Login()" class="btn btn-primary w-100 mb-2" type="submit" value="Giriş Yap">
-                <a href="/kayit-ol" class="btn btn-outline-secondary w-100">Hemen Kayıt Ol</a>
+                    <div class="mb-3">
+                        <label class="form-label">Telefon</label>
+                        <input asp-for="Phone" class="form-control" placeholder="5555555555" />
+                        <span asp-validation-for="Phone" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Şifre</label>
+                        <input asp-for="Password" type="password" class="form-control" placeholder="••••••" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 mb-2">Kayıt Ol</button>
+                    <a href="/login" class="btn btn-outline-secondary w-100">Giriş Yap</a>
+                </form>
             </div>
         </div>
 
@@ -118,7 +118,6 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="~/js/myScript/login.js?=v1"></script>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
@@ -141,6 +140,3 @@
 
 <!-- Theme Initialization Files -->
 <script src="~/js/theme.init.js"></script>
-
-
-

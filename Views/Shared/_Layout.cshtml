@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿
+
+
+<!DOCTYPE html>
 <html lang="en" class="side-header">
 <head>
     <meta charset="utf-8" />
@@ -131,12 +134,13 @@
 													</a>
 													
 												</li>
+												@if (ViewBag.UserId == 1){
 												<li class="dropdown">
 													<a class="dropdown-item dropdown-toggle" href="/basvurular">
 														Başvurular
-													</a>
-													
-												</li><br>
+													</a></li>
+												}
+												<br>
 												<li class="dropdown">
 													<a class="dropdown " href="/cikis">
 														Çıkış Yap

@@ -24,7 +24,7 @@ public class HomeController : Controller
     {
         var userId = HttpContext.Session.GetInt32("Usersid");
         if (userId == null) return RedirectToAction("LandingPage", "Home");
-
+        ViewBag.UserId = userId;
         var appointment = _context.Appointments
         .Include(vm => vm.Users)
         .Include(vm => vm.Business)
@@ -49,6 +49,7 @@ public class HomeController : Controller
     [Route("Edit/{id}")]
     public IActionResult Edit(int id)
     {
+        
         var appointment = _context.Appointments
         .Include(a => a.Users)
         .Include(a => a.Business)
@@ -122,7 +123,7 @@ public class HomeController : Controller
         var userId = HttpContext.Session.GetInt32("Usersid");
         if (userId == null)
             return RedirectToAction("Login", "Login");
-
+        ViewBag.UserId = userId;
         // Kullanıcı bilgisi
         var user = _context.Users.FirstOrDefault(u => u.Id == userId);
 
@@ -193,6 +194,9 @@ public class HomeController : Controller
     [Route("isletmeler")]
     public IActionResult Businesses()
     {
+        var userId = HttpContext.Session.GetInt32("Usersid");
+        if (userId == null) return RedirectToAction("Login", "Login");
+        ViewBag.UserId = userId;
         var businesses = _context.Business
         .Where(a => a.IsActive == true && a.IsDelete == false)
         .Select(a => new BusinessViewModel
@@ -210,8 +214,8 @@ public class HomeController : Controller
     public IActionResult CreateAppointment(int id)
     {
         var userId = HttpContext.Session.GetInt32("Usersid");
-        if (userId == null)
-            return RedirectToAction("Login", "Login");
+        if (userId == null) return RedirectToAction("Login", "Login");
+        ViewBag.UserId = userId;
 
         var user = _context.Users.FirstOrDefault(u => u.Id == userId);
 
@@ -254,13 +258,14 @@ public class HomeController : Controller
 
         var userId = HttpContext.Session.GetInt32("Usersid");
         if (userId == null) return RedirectToAction("Login", "Login");
+        ViewBag.UserId = userId;
 
         var appointment = new Appointments
         {
             UsersId = userId.Value,
             AppointmentDate = model.AppointmentDate,
             BusinessId = model.BusinessId,
-            Status = AppointmentSystem.Entities.AppointmentStatus.Bekliyor,
+            Status = AppointmentStatus.Bekliyor,
             Note = model.AppointmentNote,
             IsActive = true,
             IsDelete = false
@@ -277,7 +282,7 @@ public class HomeController : Controller
     {
         var userId = HttpContext.Session.GetInt32("Usersid");
         if (userId == null) return RedirectToAction("Login", "Login");
-
+        ViewBag.UserId = userId;
         var appointment = _context.Appointments
         .Include(vm => vm.Users)
         .Include(vm => vm.Business)
@@ -300,8 +305,9 @@ public class HomeController : Controller
     [Route("/gecmis-randevular")]
     public IActionResult OldAppointment()
     {
-        var userId = HttpContext.Session.GetInt32("Usersid");
+       var userId = HttpContext.Session.GetInt32("Usersid");
         if (userId == null) return RedirectToAction("Login", "Login");
+        ViewBag.UserId = userId;
 
         var appointment = _context.Appointments
         .Include(vm => vm.Users)
@@ -333,9 +339,9 @@ public class HomeController : Controller
     [Route("isletmelerim")]
     public IActionResult MyBusiness()
     {
-        var userId = HttpContext.Session.GetInt32("Usersid");
-        if (userId == null) return RedirectToAction("LandingPage", "Home");
-
+       var userId = HttpContext.Session.GetInt32("Usersid");
+        if (userId == null) return RedirectToAction("Login", "Login");
+        ViewBag.UserId = userId;
         var businesses = _context.Business
         .Where(a => a.IsActive == true && a.IsDelete == false && userId == a.Users!.Id)
         .Select(a => new BusinessViewModel
@@ -354,7 +360,8 @@ public class HomeController : Controller
     public IActionResult MyBusinessDetail(int id)
     {
         var userId = HttpContext.Session.GetInt32("Usersid");
-        if (userId == null) return RedirectToAction("LandingPage", "Home");
+        if (userId == null) return RedirectToAction("Login", "Login");
+        ViewBag.UserId = userId;
 
         var businesses = _context.Business
         .Where(a => a.IsActive == true && a.IsDelete == false && userId == a.Users!.Id)
@@ -375,7 +382,8 @@ public class HomeController : Controller
     public IActionResult MyBusinessAppointment(int id)
     {
         var userId = HttpContext.Session.GetInt32("Usersid");
-        if (userId == null) return RedirectToAction("LandingPage", "Home");
+        if (userId == null) return RedirectToAction("Login", "Login");
+        ViewBag.UserId = userId;
 
         var appointments = _context.Appointments
             .Include(a => a.Users)
@@ -426,8 +434,9 @@ public class HomeController : Controller
     [Route("yeni-basvuru")]
     public IActionResult ApplicationBusiness()
     {
-        var userId = HttpContext.Session.GetInt32("Usersid");
-        if (userId == null) return RedirectToAction("LandingPage", "Home");
+       var userId = HttpContext.Session.GetInt32("Usersid");
+        if (userId == null) return RedirectToAction("Login", "Login");
+        ViewBag.UserId = userId;
 
 
         return View();
@@ -439,6 +448,7 @@ public class HomeController : Controller
     {
         var userId = HttpContext.Session.GetInt32("Usersid");
         if (userId == null) return RedirectToAction("Login", "Login");
+        ViewBag.UserId = userId;
 
         if (!ModelState.IsValid)
         {
@@ -489,6 +499,7 @@ public class HomeController : Controller
     {
         var userId = HttpContext.Session.GetInt32("Usersid");
         if (userId == null) return RedirectToAction("Login", "Login");
+        ViewBag.UserId = userId;
 
         var application = _context.BusinessApplication.Where(a => a.IsActive == true).ToList();
         return View(application);
