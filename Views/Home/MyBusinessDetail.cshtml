@@ -13,13 +13,12 @@
                 </div>
 
                 <div class="card-body p-4">
-                    <form asp-action="Edit" asp-controller="Business" method="post" enctype="multipart/form-data">
+                    <form  asp-action="MyBusinessEdit" method="post" enctype="multipart/form-data">
                         @Html.AntiForgeryToken()
                         <input type="hidden" asp-for="Id" />
                         <input type="hidden" asp-for="ImgUrl" />
 
                         <div class="row g-4">
-                            <!-- İşletme Adı -->
                             <div class="col-md-6">
                                 <label asp-for="Name" class="form-label fw-semibold">
                                     <i class="bi bi-info-circle text-primary"></i> İşletme Adı
@@ -28,7 +27,6 @@
                                 <span asp-validation-for="Name" class="text-danger"></span>
                             </div>
 
-                            <!-- Adres -->
                             <div class="col-md-6">
                                 <label asp-for="Address" class="form-label fw-semibold">
                                     <i class="bi bi-geo-alt text-primary"></i> İşletme Adresi
@@ -37,7 +35,6 @@
                                 <span asp-validation-for="Address" class="text-danger"></span>
                             </div>
 
-                            <!-- Mevcut Görsel -->
                             <div class="col-12">
                                 <label class="form-label fw-semibold">
                                     <i class="bi bi-image text-primary"></i> Mevcut Görsel
@@ -53,7 +50,6 @@
                                 <small class="text-muted d-block mt-1">Yeni bir görsel seçmezsen mevcut görsel korunur.</small>
                             </div>
 
-                            <!-- Yeni Görsel Yükle -->
                             <div class="col-12">
                                 <label asp-for="ImgFile" class="form-label fw-semibold">
                                     <i class="bi bi-upload text-primary"></i> Yeni Görsel Yükle (opsiyonel)
@@ -61,7 +57,6 @@
                                 <input asp-for="ImgFile" type="file" accept="image/*" class="form-control" id="imgInput" />
                                 <span asp-validation-for="ImgFile" class="text-danger"></span>
 
-                                <!-- Canlı önizleme -->
                                 <div id="newPreviewWrap" class="mt-3 d-none">
                                     <div class="fw-semibold mb-2">Yeni Önizleme</div>
                                     <img id="newPreview" class="img-fluid rounded border shadow-sm" style="max-height:220px; object-fit:contain" alt="Yeni görsel önizleme" />
@@ -71,7 +66,6 @@
                                 </div>
                             </div>
 
-                            <!-- Açıklama -->
                             <div class="col-12">
                                 <label asp-for="Description" class="form-label fw-semibold">
                                     <i class="bi bi-pencil text-primary"></i> İşletme Açıklaması
@@ -80,7 +74,6 @@
                                 <span asp-validation-for="Description" class="text-danger"></span>
                             </div>
 
-                            <!-- Butonlar -->
                             <div class="col-12 d-flex justify-content-end gap-2">
                                 <a asp-action="Index" class="btn btn-outline-secondary">
                                     <i class="bi bi-x-circle"></i> Vazgeç
