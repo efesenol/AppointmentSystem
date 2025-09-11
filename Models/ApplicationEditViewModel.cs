@@ -2,12 +2,10 @@ using AppointmentSystem.Entities;
 
 namespace AppointmentSystem.Models
 {
-    public class BusinessApplicationViewModel
+    public class ApplicationEditViewModel
     {
         public int ApplicationId { get; set; }
         public string? BusinessName { get; set; }
-        public string? BusinessEmail { get; set; }
-        public string? BusinessTel { get; set; }
         public string? Address { get; set; }
         public string? Description { get; set; }
          public IFormFile? ImgFile { get; set; }

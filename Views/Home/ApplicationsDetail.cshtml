@@ -1,0 +1,62 @@
+@model AppointmentSystem.Entities.BusinessApplication
+
+<div class="container mt-5">
+    <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0"><i class="bi bi-info-circle me-2"></i> Başvuru Detayı</h5>
+            <span
+                class="badge 
+                @(Model.Status == AppointmentSystem.Entities.ApplicationStatus.Bekliyor ? "bg-warning text-dark" :
+                                  Model.Status == AppointmentSystem.Entities.ApplicationStatus.Tamamlandı ? "bg-success" : "bg-danger")">
+                @Model.Status
+            </span>
+        </div>
+
+        <div class="card-body p-4">
+            <div class="row g-4">
+                <!-- İşletme Görseli -->
+                <div class="col-md-5 text-center">
+                    <img src="@Model.ImgUrl" alt="@Model.BusinessName" class="img-fluid rounded shadow-sm"
+                        style="max-height:250px; object-fit:contain;" />
+                </div>
+
+                <!-- Bilgiler -->
+                <div class="col-md-7">
+                    <h4 class="fw-bold mb-2">@Model.BusinessName</h4>
+                    <p class="mb-1"></p>
+                    <i class="bi bi-geo-alt-fill me-1 text-danger"></i>
+                    <a href="https://www.google.com/maps/search/?api=1&query=@Uri.EscapeDataString(@Model.Address!)"
+                        target="_blank" class="text-secondary text-decoration-none">
+                        @Model.Address
+                    </a>
+                    </p>
+                    <p class="mb-1"><i class="bi bi-info-circle text-primary me-2"></i> @Model.Description</p>
+                    <hr />
+                    <p class="mb-1"><i class="bi bi-person-circle text-success me-2"></i>
+                        <strong>@Model.Users?.FullName</strong></p>
+                    <p class="mb-1"><i class="bi bi-envelope-at text-secondary me-2"></i> @Model.Users?.Email</p>
+                    <p class="mb-1"><i class="bi bi-calendar3 text-primary me-2"></i> Başvuru Tarihi:
+                        @Model.CreateTime.ToString("dd.MM.yyyy HH:mm")</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-footer d-flex justify-content-end gap-2">
+            <form asp-action="ApproveApplication" asp-route-id="@Model.Id" method="post" class="d-inline">
+                <button type="submit" class="btn btn-success">
+                    <i class="bi bi-check-circle"></i> Onayla
+                </button>
+            </form>
+
+            <form asp-action="RejectApplication" asp-route-id="@Model.Id" method="post" class="d-inline">
+                <button type="submit" class="btn btn-danger">
+                    <i class="bi bi-x-circle"></i> Reddet
+                </button>
+            </form>
+
+            <a asp-action="Applications" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left"></i> Listeye Dön
+            </a>
+        </div>
+    </div>
+</div>

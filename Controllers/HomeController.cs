@@ -49,7 +49,7 @@ public class HomeController : Controller
     [Route("Edit/{id}")]
     public IActionResult Edit(int id)
     {
-        
+
         var appointment = _context.Appointments
         .Include(a => a.Users)
         .Include(a => a.Business)
@@ -305,7 +305,7 @@ public class HomeController : Controller
     [Route("/gecmis-randevular")]
     public IActionResult OldAppointment()
     {
-       var userId = HttpContext.Session.GetInt32("Usersid");
+        var userId = HttpContext.Session.GetInt32("Usersid");
         if (userId == null) return RedirectToAction("Login", "Login");
         ViewBag.UserId = userId;
 
@@ -339,7 +339,7 @@ public class HomeController : Controller
     [Route("isletmelerim")]
     public IActionResult MyBusiness()
     {
-       var userId = HttpContext.Session.GetInt32("Usersid");
+        var userId = HttpContext.Session.GetInt32("Usersid");
         if (userId == null) return RedirectToAction("Login", "Login");
         ViewBag.UserId = userId;
         var businesses = _context.Business
@@ -365,17 +365,62 @@ public class HomeController : Controller
 
         var businesses = _context.Business
         .Where(a => a.IsActive == true && a.IsDelete == false && userId == a.Users!.Id)
-        .Select(a => new EditBusinessViewModel
+        .Select(a => new MyBusinessEditViewModel
         {
-            Address = a.Address,
-            Name = a.Name,
-            Id = a.Id,
-            Description = a.Descrption,
+            BusinessAddress = a.Address,
+            BusinessName = a.Name,
+            BusinessEmail = a.Email,
+            BusinessTel = a.Telephone,
+            BusinessId = a.Id,
+            BusinessDescrption = a.Descrption,
             ImgUrl = a.ImgUrl
         })
         .FirstOrDefault();
         return View(businesses);
+    }
 
+    [HttpPost]
+    [Route("isletmelerim-düzenle/{id}")]
+    public IActionResult MyBusinessEdit(int id, MyBusinessEditViewModel model)
+    {
+        var userId = HttpContext.Session.GetInt32("Usersid");
+        if (userId == null)
+            return RedirectToAction("Login", "Login");
+
+        var myBusiness = _context.Business
+            .FirstOrDefault(a => a.IsActive && !a.IsDelete && a.UsersId == userId && a.Id == id);
+
+        if (myBusiness == null)
+            return NotFound();
+
+        myBusiness.Name = model.BusinessName;
+        myBusiness.Email = model.BusinessEmail;
+        myBusiness.Address = model.BusinessAddress;
+        myBusiness.Telephone = model.BusinessTel;
+        myBusiness.Descrption = model.BusinessDescrption;
+
+        if (model.ImgFile != null && model.ImgFile.Length > 0)
+        {
+            var fileName = Guid.NewGuid() + Path.GetExtension(model.ImgFile.FileName);
+            var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads/business");
+
+            if (!Directory.Exists(uploadPath))
+                Directory.CreateDirectory(uploadPath);
+
+            var fullPath = Path.Combine(uploadPath, fileName);
+            using (var stream = new FileStream(fullPath, FileMode.Create))
+            {
+                model.ImgFile.CopyTo(stream);
+            }
+
+            myBusiness.ImgUrl = "/uploads/business/" + fileName;
+        }
+
+
+        _context.SaveChanges();
+
+        TempData["SuccessMessage"] = "İşletme bilgileri başarıyla güncellendi.";
+        return RedirectToAction("MyBusiness");
     }
 
     [Route("isletme-randevular/{id}")]
@@ -434,7 +479,7 @@ public class HomeController : Controller
     [Route("yeni-basvuru")]
     public IActionResult ApplicationBusiness()
     {
-       var userId = HttpContext.Session.GetInt32("Usersid");
+        var userId = HttpContext.Session.GetInt32("Usersid");
         if (userId == null) return RedirectToAction("Login", "Login");
         ViewBag.UserId = userId;
 
@@ -493,7 +538,7 @@ public class HomeController : Controller
         TempData["SuccessMessage"] = "Başvurunuz başarıyla gönderildi!";
         return RedirectToAction("MyBusiness");
     }
-    
+
     [Route("basvurular")]
     public IActionResult Applications()
     {
@@ -501,7 +546,10 @@ public class HomeController : Controller
         if (userId == null) return RedirectToAction("Login", "Login");
         ViewBag.UserId = userId;
 
-        var application = _context.BusinessApplication.Where(a => a.IsActive == true).ToList();
+        var application = _context.BusinessApplication
+        .Include(a => a.Users)
+        .Where(a => a.IsActive == true)
+        .ToList();
         return View(application);
     }
     [HttpPost]
@@ -537,6 +585,36 @@ public class HomeController : Controller
         TempData["SuccessMessage"] = "Başvuru onaylandı, işletme kaydedildi.";
         return RedirectToAction("Applications"); // Admin başvuru listesine dön
     }
+    [Route("basvuru-detay/{id}")]
+    public IActionResult ApplicationsDetail(int id, ApplicationEditViewModel model)
+    {
+        var application = _context.BusinessApplication
+         .Include(a => a.Users)
+         .FirstOrDefault(a => a.Id == id && a.IsActive && !a.IsDelete);
+
+        if (application == null)
+            return NotFound();
+
+        return View(application);
+    }
+
+    [HttpPost]
+    [Route("basvuru-reddet/{id}")]
+    public IActionResult RejectApplication(int id)
+    {
+        var application = _context.BusinessApplication.FirstOrDefault(a => a.Id == id);
+        if (application == null) return NotFound();
+
+        application.Status = ApplicationStatus.İptal;
+        application.IsActive = false;
+
+        _context.BusinessApplication.Update(application);
+        _context.SaveChanges();
+
+        TempData["ErrorMessage"] = "Başvuru reddedildi.";
+        return RedirectToAction("Applications");
+    }
+
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()

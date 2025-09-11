@@ -1,4 +1,4 @@
-@model EditBusinessViewModel
+@model MyBusinessEditViewModel
 @{
     ViewData["Title"] = "İşletme Güncelle";
 }
@@ -13,26 +13,40 @@
                 </div>
 
                 <div class="card-body p-4">
-                    <form  asp-action="MyBusinessEdit" method="post" enctype="multipart/form-data">
+                    <form asp-route-id="@Model.BusinessId" asp-action="MyBusinessEdit" method="post" enctype="multipart/form-data">
                         @Html.AntiForgeryToken()
-                        <input type="hidden" asp-for="Id" />
+                        <input type="hidden" asp-for="BusinessId" />
                         <input type="hidden" asp-for="ImgUrl" />
 
                         <div class="row g-4">
                             <div class="col-md-6">
-                                <label asp-for="Name" class="form-label fw-semibold">
+                                <label asp-for="BusinessName" class="form-label fw-semibold">
                                     <i class="bi bi-info-circle text-primary"></i> İşletme Adı
                                 </label>
-                                <input asp-for="Name" class="form-control" />
-                                <span asp-validation-for="Name" class="text-danger"></span>
+                                <input asp-for="BusinessName" class="form-control" />
+                                <span asp-validation-for="BusinessName" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="BusinessEmail" class="form-label fw-semibold">
+                                    <i class="bi bi-info-circle text-primary"></i> İşletme Maili
+                                </label>
+                                <input asp-for="BusinessEmail" class="form-control" />
+                                <span asp-validation-for="BusinessEmail" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="BusinessTel" class="form-label fw-semibold">
+                                    <i class="bi bi-info-circle text-primary"></i> İşletme Telefonu
+                                </label>
+                                <input asp-for="BusinessTel" class="form-control" />
+                                <span asp-validation-for="BusinessTel" class="text-danger"></span>
                             </div>
 
                             <div class="col-md-6">
-                                <label asp-for="Address" class="form-label fw-semibold">
+                                <label asp-for="BusinessAddress" class="form-label fw-semibold">
                                     <i class="bi bi-geo-alt text-primary"></i> İşletme Adresi
                                 </label>
-                                <input asp-for="Address" class="form-control" />
-                                <span asp-validation-for="Address" class="text-danger"></span>
+                                <input asp-for="BusinessAddress" class="form-control" />
+                                <span asp-validation-for="BusinessAddress" class="text-danger"></span>
                             </div>
 
                             <div class="col-12">
@@ -41,7 +55,7 @@
                                 </label>
                                 <div class="border rounded p-2 bg-light text-center">
                                     <img id="currentPreview"
-                                         src="~/uploads/business/@(string.IsNullOrWhiteSpace(Model.ImgUrl) ? "placeholder.jpg" : Model.ImgUrl)"
+                                         src="@(string.IsNullOrWhiteSpace(Model.ImgUrl) ? "placeholder.jpg" : Model.ImgUrl)"
                                          class="img-fluid rounded shadow-sm"
                                          style="max-height:220px; object-fit:contain"
                                          alt="Mevcut işletme görseli"
@@ -67,11 +81,11 @@
                             </div>
 
                             <div class="col-12">
-                                <label asp-for="Description" class="form-label fw-semibold">
+                                <label asp-for="BusinessDescrption" class="form-label fw-semibold">
                                     <i class="bi bi-pencil text-primary"></i> İşletme Açıklaması
                                 </label>
-                                <textarea asp-for="Description" rows="4" class="form-control"></textarea>
-                                <span asp-validation-for="Description" class="text-danger"></span>
+                                <textarea asp-for="BusinessDescrption" rows="4" class="form-control"></textarea>
+                                <span asp-validation-for="BusinessDescrption" class="text-danger"></span>
                             </div>
 
                             <div class="col-12 d-flex justify-content-end gap-2">

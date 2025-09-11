@@ -22,10 +22,20 @@
                             <input asp-for="BusinessName" class="form-control" placeholder="Örn: Klinik ABC" />
                             <span asp-validation-for="BusinessName" class="text-danger"></span>
                         </div>
+                        <div class="mb-3">
+                            <label asp-for="BusinessTel" class="form-label fw-bold">Telefon</label>
+                            <input asp-for="BusinessTel" class="form-control" placeholder="Örn: Klinik ABC" />
+                            <span asp-validation-for="BusinessTel" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="BusinessEmail" class="form-label fw-bold">Mail</label>
+                            <input asp-for="BusinessEmail" class="form-control" placeholder="Örn: Klinik ABC" />
+                            <span asp-validation-for="BusinessEmail" class="text-danger"></span>
+                        </div>
 
                         <!-- Adres -->
                         <div class="mb-3">
-                            <label asp-for="Address" class="form-label fw-bold">İşletme Adresi</label>
+                            <label asp-for="Address" class="form-label fw-bold">Adres</label>
                             <input asp-for="Address" class="form-control" placeholder="Örn: Ankara" />
                             <span asp-validation-for="Address" class="text-danger"></span>
                         </div>
